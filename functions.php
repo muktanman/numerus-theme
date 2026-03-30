@@ -41,6 +41,9 @@ add_action( 'acf/include_fields', function () {
 // One-time content migration: populates all fields from hardcoded defaults.
 require_once get_template_directory() . '/inc/migration.php';
 
+// Contact form submissions storage (custom post type + admin UI).
+require_once get_template_directory() . '/inc/submissions.php';
+
 // Auto-expand the Gutenberg Meta Boxes panel so SCF fields are visible on page load.
 add_action( 'admin_footer-post.php', function () {
     $screen = get_current_screen();
@@ -344,7 +347,16 @@ function numerus_handle_contact() {
         return;
     }
 
-    // ── 8. Load notification settings from the Contact page SCF fields ───────
+    // ── 8. Save submission to database ───────────────────────────────────────
+    numerus_save_submission( [
+        'name'    => $name,
+        'email'   => $email,
+        'company' => $company,
+        'message' => $message,
+        'ip'      => $ip,
+    ] );
+
+    // ── 9. Load notification settings ────────────────────────────────────────
     $contact_pages = get_posts( [
         'post_type'      => 'page',
         'posts_per_page' => 1,
