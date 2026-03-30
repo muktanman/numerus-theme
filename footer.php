@@ -1,5 +1,1 @@
-<?php numerus_footer(); ?>
-</div><!-- .layout -->
-<?php wp_footer(); ?>
-</body>
-</html>
+<?php get_template_part( 'template-parts/footer' ); ?>
