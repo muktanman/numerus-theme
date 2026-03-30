@@ -8,7 +8,16 @@ numerus_header( '' );
 $img = get_template_directory_uri() . '/assets/images/';
 
 // ── Hero ──────────────────────────────────────────────────────────────────────
-$hero_title = numerus_get_field( 'hero_title' ) ?: 'Building Sustainable Businesses in Iraq for <span class="hero-title-break">Over 50 Years</span>';
+$hero_title       = numerus_get_field( 'hero_title' )       ?: 'Building Sustainable Businesses in Iraq for <span class="hero-title-break">Over 50 Years</span>';
+$hero_button_text = numerus_get_field( 'hero_button_text' ) ?: 'Partner With Us';
+$hero_button_url  = numerus_get_field( 'hero_button_url' )  ?: home_url( '/contact' );
+$hero_slides_raw  = numerus_get_field( 'hero_slides' );
+$hero_slides = $hero_slides_raw ?: [
+    [ 'slide_image' => $img . 'banner-0.jpg', 'slide_position' => 'center' ],
+    [ 'slide_image' => $img . 'banner-1.png', 'slide_position' => 'center' ],
+    [ 'slide_image' => $img . 'banner-2.jpg', 'slide_position' => 'center' ],
+    [ 'slide_image' => $img . 'banner-3.png', 'slide_position' => 'bottom' ],
+];
 
 // ── About Us ──────────────────────────────────────────────────────────────────
 $about_text = numerus_get_field( 'about_text' ) ?: 'Numerus Group is a diversified Iraqi conglomerate operating across Logistics, Oil &amp; Gas Services, and Automotive Distribution. With a national footprint and regional offices in the UAE, we deliver reliable, high performance solutions to global partners and local industries.';
@@ -78,18 +87,20 @@ $arrow_svg = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path 
     <!-- Hero Section -->
     <section class="hero">
         <div class="background-images" id="backgroundImages">
-            <div class="background-image active" style="background-image: url('<?php echo esc_url( $img . 'banner-0.jpg' ); ?>')"></div>
-            <div class="background-image" style="background-image: url('<?php echo esc_url( $img . 'banner-1.png' ); ?>')"></div>
-            <div class="background-image" style="background-image: url('<?php echo esc_url( $img . 'banner-2.jpg' ); ?>')"></div>
-            <div class="background-image" style="background-image: url('<?php echo esc_url( $img . 'banner-3.png' ); ?>'); background-position: bottom"></div>
+            <?php foreach ( $hero_slides as $i => $slide ) :
+                $pos = ! empty( $slide['slide_position'] ) ? esc_attr( $slide['slide_position'] ) : 'center';
+            ?>
+                <div class="background-image<?php echo $i === 0 ? ' active' : ''; ?>"
+                     style="background-image: url('<?php echo esc_url( $slide['slide_image'] ); ?>'); background-position: <?php echo $pos; ?>"></div>
+            <?php endforeach; ?>
         </div>
         <div class="hero-overlay"></div>
         <div class="container hero-container">
             <div class="hero-content">
                 <h1 class="hero-title"><?php echo wp_kses( $hero_title, [ 'span' => [ 'class' => [] ] ] ); ?></h1>
                 <div class="hero-cta">
-                    <a href="<?php echo esc_url( home_url( '/contact' ) ); ?>" class="btn hero-button">
-                        Partner With Us
+                    <a href="<?php echo esc_url( $hero_button_url ); ?>" class="btn hero-button">
+                        <?php echo esc_html( $hero_button_text ); ?>
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                     </a>
                 </div>
