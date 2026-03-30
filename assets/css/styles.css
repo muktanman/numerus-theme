@@ -5613,6 +5613,16 @@ img {
   gap: 1.5rem;
 }
 
+/* Honeypot — off-screen, invisible to real users, bots fill it */
+.form-hp-wrap {
+  position: absolute;
+  left: -9999px;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
 .form-group {
   width: 100%;
 }

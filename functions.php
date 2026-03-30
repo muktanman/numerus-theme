@@ -289,22 +289,65 @@ function numerus_get_page_seo() {
 function numerus_handle_contact() {
     check_ajax_referer( 'numerus_contact_nonce', 'nonce' );
 
+    // ── 1. Honeypot — bots fill it, real users leave it blank ─────────────────
+    if ( ! empty( $_POST['website'] ) ) {
+        wp_send_json_error( [ 'message' => 'Submission rejected.' ] );
+        return;
+    }
+
+    // ── 2. Timing check — reject submissions faster than 3 seconds ────────────
+    $loaded_at = intval( $_POST['form_loaded_at'] ?? 0 );
+    if ( $loaded_at > 0 ) {
+        $elapsed_ms = ( time() * 1000 ) - $loaded_at;
+        if ( $elapsed_ms < 3000 ) {
+            wp_send_json_error( [ 'message' => 'Please take a moment before submitting.' ] );
+            return;
+        }
+    }
+
+    // ── 3. Rate limiting — max 5 submissions per IP per hour ──────────────────
+    $ip       = sanitize_text_field( $_SERVER['REMOTE_ADDR'] ?? '' );
+    $rate_key = 'numerus_contact_' . md5( $ip );
+    $count    = (int) get_transient( $rate_key );
+    if ( $count >= 5 ) {
+        wp_send_json_error( [ 'message' => 'Too many submissions. Please try again later.' ] );
+        return;
+    }
+    set_transient( $rate_key, $count + 1, HOUR_IN_SECONDS );
+
+    // ── 4. Sanitise fields ────────────────────────────────────────────────────
     $name    = sanitize_text_field( $_POST['name']    ?? '' );
     $email   = sanitize_email(      $_POST['email']   ?? '' );
     $company = sanitize_text_field( $_POST['company'] ?? '' );
     $message = sanitize_textarea_field( $_POST['message'] ?? '' );
 
+    // ── 5. Required fields ────────────────────────────────────────────────────
     if ( ! $name || ! $email || ! $message ) {
         wp_send_json_error( [ 'message' => 'Please fill in all required fields.' ] );
+        return;
     }
 
+    // ── 6. Valid email ────────────────────────────────────────────────────────
     if ( ! is_email( $email ) ) {
         wp_send_json_error( [ 'message' => 'Please enter a valid email address.' ] );
+        return;
     }
 
+    // ── 7. Content checks — no URLs in name/company, max 2 links in message ──
+    if ( preg_match( '/https?:\/\//i', $name ) || preg_match( '/https?:\/\//i', $company ) ) {
+        wp_send_json_error( [ 'message' => 'Invalid input detected.' ] );
+        return;
+    }
+    preg_match_all( '/https?:\/\//i', $message, $url_matches );
+    if ( count( $url_matches[0] ) > 2 ) {
+        wp_send_json_error( [ 'message' => 'Your message contains too many links.' ] );
+        return;
+    }
+
+    // ── 8. Send email ─────────────────────────────────────────────────────────
     $to      = get_option( 'admin_email' );
     $subject = "New Contact Form Submission — Numerus Group";
-    $body    = "Name: {$name}\nEmail: {$email}\nCompany: {$company}\n\nMessage:\n{$message}";
+    $body    = "Name: {$name}\nEmail: {$email}\nCompany: {$company}\n\nMessage:\n{$message}\n\n---\nIP: {$ip}";
     $headers = [
         'Content-Type: text/plain; charset=UTF-8',
         "Reply-To: {$name} <{$email}>",

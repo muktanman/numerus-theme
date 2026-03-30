@@ -9,8 +9,11 @@ numerus_header( 'contact' );
 // ── Field defaults ────────────────────────────────────────────────────────────
 $header_title    = numerus_get_field( 'page_header_title' )    ?: 'Contact Us';
 $header_subtitle = numerus_get_field( 'page_header_subtitle' ) ?: 'Connect with our global team to explore partnership opportunities';
-$form_intro      = numerus_get_field( 'form_intro' )           ?: 'We welcome inquiries from partners, clients, and stakeholders across all sectors.';
-$contact_email   = numerus_get_field( 'contact_email' )        ?: 'info@numerusgroup.com';
+$form_intro           = numerus_get_field( 'form_intro' )           ?: 'We welcome inquiries from partners, clients, and stakeholders across all sectors.';
+$contact_email        = numerus_get_field( 'contact_email' )        ?: 'info@numerusgroup.com';
+$form_section_title   = numerus_get_field( 'form_section_title' )   ?: 'Get in Touch';
+$offices_section_title= numerus_get_field( 'offices_section_title' )?: 'Our Offices';
+$submit_button_text   = numerus_get_field( 'submit_button_text' )   ?: 'Send Message';
 
 $offices_raw = numerus_get_field( 'offices' );
 $offices = $offices_raw ?: [
@@ -42,7 +45,7 @@ $pin_svg = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="
 
                 <!-- Form -->
                 <div class="form-container">
-                    <h2 class="contact-section-title">Get in Touch</h2>
+                    <h2 class="contact-section-title"><?php echo esc_html( $form_section_title ); ?></h2>
                     <p class="contact-intro"><?php echo esc_html( $form_intro ); ?></p>
                     <div class="success-message" id="successMessage" role="alert"></div>
                     <form id="contactForm" class="contact-form" novalidate>
@@ -58,8 +61,14 @@ $pin_svg = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="
                         <div class="form-group">
                             <textarea name="message" placeholder="Your Message" required rows="6" class="form-textarea"></textarea>
                         </div>
+                        <!-- Honeypot: visually hidden, must stay empty. Bots fill it, humans don't. -->
+                        <div class="form-hp-wrap" aria-hidden="true">
+                            <input type="text" name="website" class="form-hp" autocomplete="off" tabindex="-1" value="">
+                        </div>
+                        <!-- Timestamp: JS sets this on page load for timing checks -->
+                        <input type="hidden" name="form_loaded_at" id="formLoadedAt" value="0">
                         <button type="submit" class="submit-button">
-                            Send Message
+                            <?php echo esc_html( $submit_button_text ); ?>
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                         </button>
                     </form>
@@ -67,7 +76,7 @@ $pin_svg = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="
 
                 <!-- Office Locations -->
                 <div class="info-container">
-                    <h2 class="contact-section-title">Our Offices</h2>
+                    <h2 class="contact-section-title"><?php echo esc_html( $offices_section_title ); ?></h2>
                     <div class="quick-locations">
                         <?php foreach ( $offices as $office ) : ?>
                             <div class="quick-card">
