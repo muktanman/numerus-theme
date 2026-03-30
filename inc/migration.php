@@ -6,11 +6,11 @@
  * can manage everything through the WordPress admin.
  *
  * Runs once when any admin page loads. After first successful run the
- * option 'numerus_migration_v2_done' is set and the function exits
+ * option 'numerus_migration_v3_done' is set and the function exits
  * immediately on every subsequent call.
  *
  * To re-run: delete the option from the DB or call
- *   delete_option('numerus_migration_v2_done');
+ *   delete_option('numerus_migration_v3_done');
  */
 
 // ── Helper: import a theme asset into the media library ───────────────────────
@@ -64,7 +64,7 @@ if ( ! function_exists( 'numerus_import_image' ) ) {
 
 // ── Main migration function ────────────────────────────────────────────────────
 function numerus_run_migration(): void {
-    if ( get_option( 'numerus_migration_v2_done' ) ) return;
+    if ( get_option( 'numerus_migration_v3_done' ) ) return;
     if ( ! function_exists( 'update_field' ) )        return;
 
     // ── HOME (page ID 5) ─────────────────────────────────────────────────────
@@ -336,7 +336,7 @@ function numerus_run_migration(): void {
     ], $tr );
 
     // ── Done ─────────────────────────────────────────────────────────────────
-    update_option( 'numerus_migration_v2_done', true );
+    update_option( 'numerus_migration_v3_done', true );
 }
 
 add_action( 'admin_init', 'numerus_run_migration' );

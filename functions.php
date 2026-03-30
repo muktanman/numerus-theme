@@ -16,6 +16,22 @@ if ( ! function_exists( 'numerus_get_field' ) ) {
     }
 }
 
+// Allow SVG uploads in the media library.
+add_filter( 'upload_mimes', function ( $mimes ) {
+    $mimes['svg'] = 'image/svg+xml';
+    return $mimes;
+} );
+add_filter( 'wp_check_filetype_and_ext', function ( $data, $file, $filename, $mimes ) {
+    if ( ! $data['type'] ) {
+        $ext = strtolower( pathinfo( $filename, PATHINFO_EXTENSION ) );
+        if ( $ext === 'svg' ) {
+            $data['ext']  = 'svg';
+            $data['type'] = 'image/svg+xml';
+        }
+    }
+    return $data;
+}, 10, 4 );
+
 // SCF (Secure Custom Fields) field group definitions.
 // Hook on acf/include_fields which fires during SCF's own init sequence.
 add_action( 'acf/include_fields', function () {
