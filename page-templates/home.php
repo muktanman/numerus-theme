@@ -76,9 +76,15 @@ $fp_years_label  = numerus_get_field( 'footprint_years_label' )  ?: 'Years of Ex
 $fp_jobs_number  = numerus_get_field( 'footprint_jobs_number' )  ?: '250+';
 $fp_jobs_label   = numerus_get_field( 'footprint_jobs_label' )   ?: 'Trained Professionals';
 
+// ── About button ──────────────────────────────────────────────────────────────
+$about_button_text = numerus_get_field( 'about_button_text' ) ?: 'Contact Us';
+$about_button_url  = numerus_get_field( 'about_button_url' )  ?: home_url( '/contact' );
+
 // ── Legacy CTA ────────────────────────────────────────────────────────────────
-$cta_subtitle_1 = numerus_get_field( 'cta_subtitle_1' ) ?: 'Over five decades, Numerus Group has built a diversified portfolio spanning telecom distribution, FMCG, power &amp; energy, and F&amp;B franchises.';
-$cta_subtitle_2 = numerus_get_field( 'cta_subtitle_2' ) ?: 'While these sectors are no longer active or may otherwise been divested from the group, they form the foundation of our reputation for reliability, scale, and operational excellence.';
+$cta_subtitle_1  = numerus_get_field( 'cta_subtitle_1' )  ?: 'Over five decades, Numerus Group has built a diversified portfolio spanning telecom distribution, FMCG, power &amp; energy, and F&amp;B franchises.';
+$cta_subtitle_2  = numerus_get_field( 'cta_subtitle_2' )  ?: 'While these sectors are no longer active or may otherwise been divested from the group, they form the foundation of our reputation for reliability, scale, and operational excellence.';
+$cta_button_text = numerus_get_field( 'cta_button_text' ) ?: 'Partner With Us';
+$cta_button_url  = numerus_get_field( 'cta_button_url' )  ?: home_url( '/contact' );
 
 $arrow_svg = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33334 8H12.6667M12.6667 8L8.66668 4M12.6667 8L8.66668 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 ?>
@@ -145,7 +151,7 @@ $arrow_svg = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path 
             <div class="about-content">
                 <h2 class="about-title">About</h2>
                 <p class="about-text"><?php echo esc_html( $about_text ); ?></p>
-                <a href="<?php echo esc_url( home_url( '/contact' ) ); ?>" class="btn btn-primary">Contact Us</a>
+                <a href="<?php echo esc_url( $about_button_url ); ?>" class="btn btn-primary"><?php echo esc_html( $about_button_text ); ?></a>
             </div>
         </div>
     </section>
@@ -277,8 +283,8 @@ $arrow_svg = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path 
             <div class="cta-content">
                 <p class="cta-subtitle"><strong><?php echo esc_html( $cta_subtitle_1 ); ?></strong></p>
                 <p class="cta-subtitle"><?php echo esc_html( $cta_subtitle_2 ); ?></p>
-                <a href="<?php echo esc_url( home_url( '/contact' ) ); ?>" class="btn cta-button">
-                    Partner With Us
+                <a href="<?php echo esc_url( $cta_button_url ); ?>" class="btn cta-button">
+                    <?php echo esc_html( $cta_button_text ); ?>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </a>
             </div>

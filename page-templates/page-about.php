@@ -13,8 +13,10 @@ $header_subtitle = numerus_get_field( 'page_header_subtitle' ) ?: 'A legacy of e
 $who_we_are_text = numerus_get_field( 'who_we_are_text' )      ?: 'Numerus Group is a multi sector business group with deep roots in Iraq\'s economic development. Since the 1970s, we have partnered with leading global companies to deliver complex projects in logistics, energy, infrastructure, and consumer markets. Today, our focus is on three high impact sectors where we maintain strong operational capabilities and long standing client relationships.';
 $mission_text    = numerus_get_field( 'mission_text' )         ?: 'To build and operate sustainable, high performance businesses that create long term value for our partners, employees, and the Iraqi economy.';
 $vision_text     = numerus_get_field( 'vision_text' )          ?: 'We strive to be leaders in best-practice operations, innovation and performance excellence, and long-term value creation for all stakeholders.';
-$cta_title       = numerus_get_field( 'cta_title' )            ?: 'Ready to Enter the Iraqi Market?';
-$cta_subtitle    = numerus_get_field( 'cta_subtitle' )         ?: 'Let\'s discuss how we can help you succeed';
+$cta_title       = numerus_get_field( 'cta_title' )       ?: 'Ready to Enter the Iraqi Market?';
+$cta_subtitle    = numerus_get_field( 'cta_subtitle' )    ?: 'Let\'s discuss how we can help you succeed';
+$cta_button_text = numerus_get_field( 'cta_button_text' ) ?: 'Get Started';
+$cta_button_url  = numerus_get_field( 'cta_button_url' )  ?: home_url( '/contact' );
 
 $values_raw = numerus_get_field( 'values' );
 $values = $values_raw ?: [
@@ -186,7 +188,7 @@ $timeline = $timeline_raw ?: [
                 <div class="page-cta-content">
                     <h2 class="page-cta-title"><?php echo esc_html( $cta_title ); ?></h2>
                     <p class="page-cta-subtitle"><?php echo esc_html( $cta_subtitle ); ?></p>
-                    <a href="<?php echo esc_url( home_url( '/contact' ) ); ?>" class="page-cta-button">Get Started <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                    <a href="<?php echo esc_url( $cta_button_url ); ?>" class="page-cta-button"><?php echo esc_html( $cta_button_text ); ?> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
                 </div>
             </div>
         </div>

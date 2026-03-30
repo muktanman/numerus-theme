@@ -15,15 +15,15 @@ $experience_text = numerus_get_field( 'experience_text' )      ?: 'AGOS has supp
 
 $services_raw = numerus_get_field( 'services' );
 $services = $services_raw ?: [
-    [ 'service_text' => 'Water Treatment / Desalination Plant O&M' ],
-    [ 'service_text' => 'Camp construction and accommodation units' ],
-    [ 'service_text' => 'Catering, life support, and O&M of remote camps' ],
-    [ 'service_text' => 'Manpower supply and payroll management' ],
-    [ 'service_text' => 'Fuel and water supply services' ],
-    [ 'service_text' => 'Waste management and environmental services' ],
-    [ 'service_text' => 'Logistics, transport, and trucking' ],
-    [ 'service_text' => 'Cathodic protection engineering and installation' ],
-    [ 'service_text' => 'Supply of valves, pipes, drill bits, and O&G materials' ],
+    [ 'service_text' => 'Water Treatment / Desalination Plant O&M',         'service_button_text' => 'Learn More', 'service_button_url' => '' ],
+    [ 'service_text' => 'Camp construction and accommodation units',          'service_button_text' => 'Learn More', 'service_button_url' => '' ],
+    [ 'service_text' => 'Catering, life support, and O&M of remote camps',   'service_button_text' => 'Learn More', 'service_button_url' => '' ],
+    [ 'service_text' => 'Manpower supply and payroll management',             'service_button_text' => 'Learn More', 'service_button_url' => '' ],
+    [ 'service_text' => 'Fuel and water supply services',                    'service_button_text' => 'Learn More', 'service_button_url' => '' ],
+    [ 'service_text' => 'Waste management and environmental services',        'service_button_text' => 'Learn More', 'service_button_url' => '' ],
+    [ 'service_text' => 'Logistics, transport, and trucking',                'service_button_text' => 'Learn More', 'service_button_url' => '' ],
+    [ 'service_text' => 'Cathodic protection engineering and installation',   'service_button_text' => 'Learn More', 'service_button_url' => '' ],
+    [ 'service_text' => 'Supply of valves, pipes, drill bits, and O&G materials', 'service_button_text' => 'Learn More', 'service_button_url' => '' ],
 ];
 ?>
 <main class="main">
@@ -64,7 +64,11 @@ $services = $services_raw ?: [
                     <div class="capability-card">
                         <span class="capability-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
                         <p><strong><?php echo esc_html( $svc['service_text'] ); ?></strong></p>
-                        <a href="<?php echo esc_url( home_url( '/service-detail' ) ); ?>" class="capability-learn-more">Learn More</a>
+                        <?php
+                        $btn_text = ! empty( $svc['service_button_text'] ) ? $svc['service_button_text'] : 'Learn More';
+                        $btn_url  = ! empty( $svc['service_button_url'] )  ? $svc['service_button_url']  : home_url( '/contact' );
+                        ?>
+                        <a href="<?php echo esc_url( $btn_url ); ?>" class="capability-learn-more"><?php echo esc_html( $btn_text ); ?></a>
                     </div>
                 <?php endforeach; ?>
             </div>

@@ -81,7 +81,9 @@ function numerus_run_migration(): void {
         [ 'slide_image' => numerus_import_image( 'banner-3.png', 'Hero Slide 4' ), 'slide_position' => 'bottom' ],
     ], $home );
 
-    update_field( 'about_text', 'Numerus Group is a diversified Iraqi conglomerate operating across Logistics, Oil & Gas Services, and Automotive Distribution. With a national footprint and regional offices in the UAE, we deliver reliable, high performance solutions to global partners and local industries.', $home );
+    update_field( 'about_text',        'Numerus Group is a diversified Iraqi conglomerate operating across Logistics, Oil & Gas Services, and Automotive Distribution. With a national footprint and regional offices in the UAE, we deliver reliable, high performance solutions to global partners and local industries.', $home );
+    update_field( 'about_button_text', 'Contact Us',          $home );
+    update_field( 'about_button_url',  home_url( '/contact' ), $home );
 
     update_field( 'sectors', [
         [
@@ -132,8 +134,10 @@ function numerus_run_migration(): void {
     update_field( 'footprint_jobs_number',  '250+',                 $home );
     update_field( 'footprint_jobs_label',   'Trained Professionals',$home );
 
-    update_field( 'cta_subtitle_1', 'Over five decades, Numerus Group has built a diversified portfolio spanning telecom distribution, FMCG, power & energy, and F&B franchises.', $home );
-    update_field( 'cta_subtitle_2', 'While these sectors are no longer active or may otherwise been divested from the group, they form the foundation of our reputation for reliability, scale, and operational excellence.', $home );
+    update_field( 'cta_subtitle_1',  'Over five decades, Numerus Group has built a diversified portfolio spanning telecom distribution, FMCG, power & energy, and F&B franchises.', $home );
+    update_field( 'cta_subtitle_2',  'While these sectors are no longer active or may otherwise been divested from the group, they form the foundation of our reputation for reliability, scale, and operational excellence.', $home );
+    update_field( 'cta_button_text', 'Partner With Us',        $home );
+    update_field( 'cta_button_url',  home_url( '/contact' ),   $home );
 
     // ── ABOUT (page ID 6) ────────────────────────────────────────────────────
     $about = 6;
@@ -143,8 +147,10 @@ function numerus_run_migration(): void {
     update_field( 'who_we_are_text', 'Numerus Group is a multi sector business group with deep roots in Iraq\'s economic development. Since the 1970s, we have partnered with leading global companies to deliver complex projects in logistics, energy, infrastructure, and consumer markets. Today, our focus is on three high impact sectors where we maintain strong operational capabilities and long standing client relationships.', $about );
     update_field( 'mission_text',    'To build and operate sustainable, high performance businesses that create long term value for our partners, employees, and the Iraqi economy.', $about );
     update_field( 'vision_text',     'We strive to be leaders in best-practice operations, innovation and performance excellence, and long-term value creation for all stakeholders.', $about );
-    update_field( 'cta_title',       'Ready to Enter the Iraqi Market?',             $about );
-    update_field( 'cta_subtitle',    'Let\'s discuss how we can help you succeed',   $about );
+    update_field( 'cta_title',       'Ready to Enter the Iraqi Market?',           $about );
+    update_field( 'cta_subtitle',    'Let\'s discuss how we can help you succeed', $about );
+    update_field( 'cta_button_text', 'Get Started',          $about );
+    update_field( 'cta_button_url',  home_url( '/contact' ), $about );
 
     update_field( 'values', [
         [ 'value_number' => '01', 'value_name' => 'Excellence' ],
@@ -231,15 +237,15 @@ function numerus_run_migration(): void {
     update_field( 'experience_text',      'AGOS has supported drilling, production, and field development operations across southern Iraq, delivering reliable services in challenging environments with a strong focus on safety and compliance.', $og );
 
     update_field( 'services', [
-        [ 'service_text' => 'Water Treatment / Desalination Plant O&M' ],
-        [ 'service_text' => 'Camp construction and accommodation units' ],
-        [ 'service_text' => 'Catering, life support, and O&M of remote camps' ],
-        [ 'service_text' => 'Manpower supply and payroll management' ],
-        [ 'service_text' => 'Fuel and water supply services' ],
-        [ 'service_text' => 'Waste management and environmental services' ],
-        [ 'service_text' => 'Logistics, transport, and trucking' ],
-        [ 'service_text' => 'Cathodic protection engineering and installation' ],
-        [ 'service_text' => 'Supply of valves, pipes, drill bits, and O&G materials' ],
+        [ 'service_text' => 'Water Treatment / Desalination Plant O&M',          'service_button_text' => 'Learn More', 'service_button_url' => home_url( '/contact' ) ],
+        [ 'service_text' => 'Camp construction and accommodation units',           'service_button_text' => 'Learn More', 'service_button_url' => home_url( '/contact' ) ],
+        [ 'service_text' => 'Catering, life support, and O&M of remote camps',    'service_button_text' => 'Learn More', 'service_button_url' => home_url( '/contact' ) ],
+        [ 'service_text' => 'Manpower supply and payroll management',              'service_button_text' => 'Learn More', 'service_button_url' => home_url( '/contact' ) ],
+        [ 'service_text' => 'Fuel and water supply services',                     'service_button_text' => 'Learn More', 'service_button_url' => home_url( '/contact' ) ],
+        [ 'service_text' => 'Waste management and environmental services',         'service_button_text' => 'Learn More', 'service_button_url' => home_url( '/contact' ) ],
+        [ 'service_text' => 'Logistics, transport, and trucking',                 'service_button_text' => 'Learn More', 'service_button_url' => home_url( '/contact' ) ],
+        [ 'service_text' => 'Cathodic protection engineering and installation',    'service_button_text' => 'Learn More', 'service_button_url' => home_url( '/contact' ) ],
+        [ 'service_text' => 'Supply of valves, pipes, drill bits, and O&G materials', 'service_button_text' => 'Learn More', 'service_button_url' => home_url( '/contact' ) ],
     ], $og );
 
     // ── WATER TREATMENT (page ID 11) ─────────────────────────────────────────

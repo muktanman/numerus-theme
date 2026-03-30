@@ -84,6 +84,20 @@ acf_add_local_field_group( [
             'type'  => 'textarea',
             'rows'  => 5,
         ],
+        [
+            'key'     => 'field_home_about_button_text',
+            'label'   => 'Button Text',
+            'name'    => 'about_button_text',
+            'type'    => 'text',
+            'wrapper' => [ 'width' => '50' ],
+        ],
+        [
+            'key'     => 'field_home_about_button_url',
+            'label'   => 'Button URL',
+            'name'    => 'about_button_url',
+            'type'    => 'url',
+            'wrapper' => [ 'width' => '50' ],
+        ],
 
         // ── TAB: Our Sectors ───────────────────────────────────────────────
         [ 'key' => 'field_home_tab_sectors', 'label' => 'Our Sectors', 'name' => '', 'type' => 'tab' ],
@@ -245,6 +259,20 @@ acf_add_local_field_group( [
             'type'  => 'textarea',
             'rows'  => 2,
         ],
+        [
+            'key'     => 'field_home_cta_button_text',
+            'label'   => 'Button Text',
+            'name'    => 'cta_button_text',
+            'type'    => 'text',
+            'wrapper' => [ 'width' => '50' ],
+        ],
+        [
+            'key'     => 'field_home_cta_button_url',
+            'label'   => 'Button URL',
+            'name'    => 'cta_button_url',
+            'type'    => 'url',
+            'wrapper' => [ 'width' => '50' ],
+        ],
     ],
     'location' => [ [ [ 'param' => 'page_template', 'operator' => '==', 'value' => 'page-templates/home.php' ] ] ],
 ] );
@@ -320,6 +348,20 @@ acf_add_local_field_group( [
             'label' => 'CTA — Subtitle',
             'name'  => 'cta_subtitle',
             'type'  => 'text',
+        ],
+        [
+            'key'     => 'field_about_cta_button_text',
+            'label'   => 'CTA — Button Text',
+            'name'    => 'cta_button_text',
+            'type'    => 'text',
+            'wrapper' => [ 'width' => '50' ],
+        ],
+        [
+            'key'     => 'field_about_cta_button_url',
+            'label'   => 'CTA — Button URL',
+            'name'    => 'cta_button_url',
+            'type'    => 'url',
+            'wrapper' => [ 'width' => '50' ],
         ],
     ],
     'location' => [ [ [ 'param' => 'page_template', 'operator' => '==', 'value' => 'page-templates/page-about.php' ] ] ],
@@ -539,7 +581,9 @@ acf_add_local_field_group( [
             'type'       => 'repeater',
             'button_label' => 'Add Service',
             'sub_fields' => [
-                [ 'key' => 'field_og_service_text', 'label' => 'Service', 'name' => 'service_text', 'type' => 'text' ],
+                [ 'key' => 'field_og_service_text',        'label' => 'Service',          'name' => 'service_text',        'type' => 'text', 'wrapper' => [ 'width' => '60' ] ],
+                [ 'key' => 'field_og_service_button_text', 'label' => 'Button Text',       'name' => 'service_button_text', 'type' => 'text', 'wrapper' => [ 'width' => '20' ] ],
+                [ 'key' => 'field_og_service_button_url',  'label' => 'Button URL',        'name' => 'service_button_url',  'type' => 'url',  'wrapper' => [ 'width' => '20' ] ],
             ],
         ],
         [
