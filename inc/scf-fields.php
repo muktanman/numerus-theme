@@ -473,6 +473,14 @@ acf_add_local_field_group( [
             'instructions' => 'Subject line of the notification email.',
             'wrapper'      => [ 'width' => '50' ],
         ],
+        [
+            'key'          => 'field_contact_notify_body',
+            'label'        => 'Email Body Template',
+            'name'         => 'notification_body',
+            'type'         => 'textarea',
+            'rows'         => 14,
+            'instructions' => 'Customize the email body. Available tokens: {{name}} {{email}} {{company}} {{message}} {{date}} {{ip}}',
+        ],
     ],
     'location' => [ [ [ 'param' => 'page_template', 'operator' => '==', 'value' => 'page-templates/page-contact.php' ] ] ],
 ] );
