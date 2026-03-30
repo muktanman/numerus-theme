@@ -22,6 +22,9 @@ add_action( 'acf/include_fields', function () {
     require_once get_template_directory() . '/inc/scf-fields.php';
 } );
 
+// One-time content migration: populates all fields from hardcoded defaults.
+require_once get_template_directory() . '/inc/migration.php';
+
 // Auto-expand the Gutenberg Meta Boxes panel so SCF fields are visible on page load.
 add_action( 'admin_footer-post.php', function () {
     $screen = get_current_screen();
