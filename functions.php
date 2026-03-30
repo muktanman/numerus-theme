@@ -44,6 +44,9 @@ require_once get_template_directory() . '/inc/migration.php';
 // Contact form submissions storage (custom post type + admin UI).
 require_once get_template_directory() . '/inc/submissions.php';
 
+// Email Settings admin page and helpers.
+require_once get_template_directory() . '/inc/email-settings.php';
+
 // Auto-expand the Gutenberg Meta Boxes panel so SCF fields are visible on page load.
 add_action( 'admin_footer-post.php', function () {
     $screen = get_current_screen();
@@ -356,42 +359,19 @@ function numerus_handle_contact() {
         'ip'      => $ip,
     ] );
 
-    // ── 9. Load notification settings ────────────────────────────────────────
-    $contact_pages = get_posts( [
-        'post_type'      => 'page',
-        'posts_per_page' => 1,
-        'meta_key'       => '_wp_page_template',
-        'meta_value'     => 'page-templates/page-contact.php',
-        'fields'         => 'ids',
+    // ── 9. Load notification settings from Email Settings (Settings menu) ────
+    $to       = get_option( 'numerus_email_to',      get_option( 'admin_email' ) );
+    $notify_cc = get_option( 'numerus_email_cc',     '' );
+    $subject  = get_option( 'numerus_email_subject', 'New Contact Form Submission — Numerus Group' );
+
+    // ── 10. Build email body from editable template ───────────────────────────
+    $body = numerus_build_email_body( [
+        'name'    => $name,
+        'email'   => $email,
+        'company' => $company,
+        'message' => $message,
+        'ip'      => $ip,
     ] );
-    $contact_id = $contact_pages ? $contact_pages[0] : 0;
-
-    $notify_to      = $contact_id && function_exists( 'get_field' ) ? get_field( 'notification_email', $contact_id ) : '';
-    $notify_cc      = $contact_id && function_exists( 'get_field' ) ? get_field( 'notification_cc',    $contact_id ) : '';
-    $notify_subject = $contact_id && function_exists( 'get_field' ) ? get_field( 'notification_subject', $contact_id ) : '';
-    $notify_body    = $contact_id && function_exists( 'get_field' ) ? get_field( 'notification_body',    $contact_id ) : '';
-
-    $to      = $notify_to      ? $notify_to      : get_option( 'admin_email' );
-    $subject = $notify_subject ? $notify_subject : 'New Contact Form Submission — Numerus Group';
-
-    // ── 10. Build email body from template (replace tokens with real values) ──
-    $default_body  = "You have a new contact form submission from the Numerus Group website.\n";
-    $default_body .= str_repeat( '-', 50 ) . "\n\n";
-    $default_body .= "Name:    {{name}}\n";
-    $default_body .= "Email:   {{email}}\n";
-    $default_body .= "Company: {{company}}\n\n";
-    $default_body .= "Message:\n{{message}}\n\n";
-    $default_body .= str_repeat( '-', 50 ) . "\n";
-    $default_body .= "Submitted: {{date}}\n";
-    $default_body .= "IP Address: {{ip}}\n";
-
-    $template = $notify_body ? $notify_body : $default_body;
-
-    $body = str_replace(
-        [ '{{name}}', '{{email}}', '{{company}}', '{{message}}', '{{date}}', '{{ip}}' ],
-        [ $name, $email, $company ?: '—', $message, date( 'D, d M Y H:i:s T' ), $ip ],
-        $template
-    );
 
     $headers = [
         'Content-Type: text/plain; charset=UTF-8',
