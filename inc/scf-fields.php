@@ -36,7 +36,7 @@ acf_add_local_field_group( [
             'key'          => 'field_home_hero_button_url',
             'label'        => 'Button URL',
             'name'         => 'hero_button_url',
-            'type'         => 'url',
+            'type'         => 'text',
             'instructions' => 'Link for the CTA button (e.g. /contact).',
             'wrapper'      => [ 'width' => '50' ],
         ],
@@ -75,6 +75,21 @@ acf_add_local_field_group( [
             ],
         ],
 
+        // ── TAB: Ticker ────────────────────────────────────────────────────
+        [ 'key' => 'field_home_tab_ticker', 'label' => 'Info Ticker', 'name' => '', 'type' => 'tab' ],
+        [
+            'key'          => 'field_home_ticker_items',
+            'label'        => 'Ticker Items',
+            'name'         => 'ticker_items',
+            'type'         => 'repeater',
+            'button_label' => 'Add Item',
+            'layout'       => 'table',
+            'instructions' => 'Text items that scroll across the info strip below the hero.',
+            'sub_fields'   => [
+                [ 'key' => 'field_home_ticker_text', 'label' => 'Text', 'name' => 'ticker_text', 'type' => 'text' ],
+            ],
+        ],
+
         // ── TAB: About Us ──────────────────────────────────────────────────
         [ 'key' => 'field_home_tab_about', 'label' => 'About Us', 'name' => '', 'type' => 'tab' ],
         [
@@ -95,7 +110,7 @@ acf_add_local_field_group( [
             'key'     => 'field_home_about_button_url',
             'label'   => 'Button URL',
             'name'    => 'about_button_url',
-            'type'    => 'url',
+            'type'    => 'text',
             'wrapper' => [ 'width' => '50' ],
         ],
 
@@ -154,7 +169,7 @@ acf_add_local_field_group( [
                     'key'          => 'field_home_sector_url',
                     'label'        => 'Learn More URL',
                     'name'         => 'sector_url',
-                    'type'         => 'url',
+                    'type'         => 'text',
                     'instructions' => 'Link for the "Learn more" button (e.g. /logistics).',
                 ],
             ],
@@ -270,7 +285,7 @@ acf_add_local_field_group( [
             'key'     => 'field_home_cta_button_url',
             'label'   => 'Button URL',
             'name'    => 'cta_button_url',
-            'type'    => 'url',
+            'type'    => 'text',
             'wrapper' => [ 'width' => '50' ],
         ],
     ],
@@ -360,7 +375,7 @@ acf_add_local_field_group( [
             'key'     => 'field_about_cta_button_url',
             'label'   => 'CTA — Button URL',
             'name'    => 'cta_button_url',
-            'type'    => 'url',
+            'type'    => 'text',
             'wrapper' => [ 'width' => '50' ],
         ],
     ],
@@ -409,6 +424,27 @@ acf_add_local_field_group( [
             'name'  => 'contact_email',
             'type'  => 'email',
         ],
+        [
+            'key'   => 'field_contact_form_section_title',
+            'label' => 'Form Section Title',
+            'name'  => 'form_section_title',
+            'type'  => 'text',
+            'wrapper' => [ 'width' => '50' ],
+        ],
+        [
+            'key'   => 'field_contact_offices_section_title',
+            'label' => 'Offices Section Title',
+            'name'  => 'offices_section_title',
+            'type'  => 'text',
+            'wrapper' => [ 'width' => '50' ],
+        ],
+        [
+            'key'   => 'field_contact_submit_button_text',
+            'label' => 'Submit Button Text',
+            'name'  => 'submit_button_text',
+            'type'  => 'text',
+            'wrapper' => [ 'width' => '50' ],
+        ],
     ],
     'location' => [ [ [ 'param' => 'page_template', 'operator' => '==', 'value' => 'page-templates/page-contact.php' ] ] ],
 ] );
@@ -440,6 +476,12 @@ acf_add_local_field_group( [
                 [ 'key' => 'field_tr_project_company', 'label' => 'Company / Client', 'name' => 'project_company',     'type' => 'text',    'wrapper' => [ 'width' => '35' ] ],
                 [ 'key' => 'field_tr_project_desc',    'label' => 'Description',       'name' => 'project_description', 'type' => 'textarea', 'rows' => 2, 'wrapper' => [ 'width' => '65' ] ],
             ],
+        ],
+        [
+            'key'   => 'field_tr_projects_subtitle',
+            'label' => 'Projects Section Subtitle',
+            'name'  => 'projects_subtitle',
+            'type'  => 'text',
         ],
         [
             'key'        => 'field_tr_highlights',
@@ -546,6 +588,28 @@ acf_add_local_field_group( [
             'type'  => 'textarea',
             'rows'  => 3,
         ],
+        [
+            'key'          => 'field_auto_products',
+            'label'        => 'Product Range',
+            'name'         => 'products',
+            'type'         => 'repeater',
+            'button_label' => 'Add Product',
+            'layout'       => 'table',
+            'sub_fields'   => [
+                [ 'key' => 'field_auto_product_text', 'label' => 'Product', 'name' => 'product_text', 'type' => 'text' ],
+            ],
+        ],
+        [
+            'key'          => 'field_auto_facilities',
+            'label'        => 'Facilities',
+            'name'         => 'facilities',
+            'type'         => 'repeater',
+            'button_label' => 'Add Facility',
+            'layout'       => 'table',
+            'sub_fields'   => [
+                [ 'key' => 'field_auto_facility_text', 'label' => 'Facility', 'name' => 'facility_text', 'type' => 'text' ],
+            ],
+        ],
     ],
     'location' => [ [ [ 'param' => 'page_template', 'operator' => '==', 'value' => 'page-templates/page-automotive.php' ] ] ],
 ] );
@@ -583,7 +647,19 @@ acf_add_local_field_group( [
             'sub_fields' => [
                 [ 'key' => 'field_og_service_text',        'label' => 'Service',          'name' => 'service_text',        'type' => 'text', 'wrapper' => [ 'width' => '60' ] ],
                 [ 'key' => 'field_og_service_button_text', 'label' => 'Button Text',       'name' => 'service_button_text', 'type' => 'text', 'wrapper' => [ 'width' => '20' ] ],
-                [ 'key' => 'field_og_service_button_url',  'label' => 'Button URL',        'name' => 'service_button_url',  'type' => 'url',  'wrapper' => [ 'width' => '20' ] ],
+                [ 'key' => 'field_og_service_button_url',  'label' => 'Button URL',        'name' => 'service_button_url',  'type' => 'text', 'wrapper' => [ 'width' => '20' ] ],
+            ],
+        ],
+        [
+            'key'          => 'field_og_clients',
+            'label'        => 'Clients',
+            'name'         => 'clients',
+            'type'         => 'repeater',
+            'button_label' => 'Add Client',
+            'layout'       => 'table',
+            'sub_fields'   => [
+                [ 'key' => 'field_og_client_logo', 'label' => 'Logo',         'name' => 'client_logo', 'type' => 'image', 'return_format' => 'url', 'preview_size' => 'thumbnail', 'wrapper' => [ 'width' => '40' ] ],
+                [ 'key' => 'field_og_client_name', 'label' => 'Company Name', 'name' => 'client_name', 'type' => 'text',  'wrapper' => [ 'width' => '60' ] ],
             ],
         ],
         [
@@ -629,6 +705,18 @@ acf_add_local_field_group( [
             'button_label' => 'Add Service',
             'sub_fields' => [
                 [ 'key' => 'field_wt_service_text', 'label' => 'Service', 'name' => 'service_text', 'type' => 'text' ],
+            ],
+        ],
+        [
+            'key'          => 'field_wt_clients',
+            'label'        => 'Clients',
+            'name'         => 'clients',
+            'type'         => 'repeater',
+            'button_label' => 'Add Client',
+            'layout'       => 'table',
+            'sub_fields'   => [
+                [ 'key' => 'field_wt_client_logo', 'label' => 'Logo',         'name' => 'client_logo', 'type' => 'image', 'return_format' => 'url', 'preview_size' => 'thumbnail', 'wrapper' => [ 'width' => '40' ] ],
+                [ 'key' => 'field_wt_client_name', 'label' => 'Company Name', 'name' => 'client_name', 'type' => 'text',  'wrapper' => [ 'width' => '60' ] ],
             ],
         ],
         [
