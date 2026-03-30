@@ -2,8 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var track = document.querySelector('.clients-static-section .partners-grid-full');
     if (!track) return;
 
-    var currentIndex = 0;
-    var interval = null;
+    var dotsContainer = null;
 
     function isMobile() {
         return window.innerWidth <= 640;
@@ -13,45 +12,69 @@ document.addEventListener('DOMContentLoaded', function () {
         return Array.prototype.slice.call(track.querySelectorAll('.partner-grid-card'));
     }
 
+    function getActiveIndex() {
+        var cards = getCards();
+        var trackLeft = track.getBoundingClientRect().left;
+        var closest = 0;
+        var minDist = Infinity;
+        cards.forEach(function (card, i) {
+            var dist = Math.abs(card.getBoundingClientRect().left - trackLeft);
+            if (dist < minDist) { minDist = dist; closest = i; }
+        });
+        return closest;
+    }
+
+    function updateDots() {
+        if (!dotsContainer) return;
+        var active = getActiveIndex();
+        var dots = dotsContainer.querySelectorAll('.clients-dot');
+        dots.forEach(function (dot, i) {
+            dot.classList.toggle('clients-dot--active', i === active);
+        });
+    }
+
     function scrollToCard(index) {
         var cards = getCards();
-        if (!cards.length) return;
-        if (index >= cards.length) index = 0;
-        if (index < 0) index = cards.length - 1;
-        currentIndex = index;
+        if (!cards[index]) return;
         track.scrollTo({ left: cards[index].offsetLeft, behavior: 'smooth' });
     }
 
-    function startAutoSlide() {
-        if (interval) return;
-        interval = setInterval(function () {
-            scrollToCard(currentIndex + 1);
-        }, 5000);
+    function buildDots() {
+        if (dotsContainer) return;
+        var cards = getCards();
+        if (cards.length < 2) return;
+
+        dotsContainer = document.createElement('div');
+        dotsContainer.className = 'clients-dots';
+
+        cards.forEach(function (_, i) {
+            var dot = document.createElement('button');
+            dot.className = 'clients-dot' + (i === 0 ? ' clients-dot--active' : '');
+            dot.setAttribute('aria-label', 'Go to client ' + (i + 1));
+            dot.addEventListener('click', function () { scrollToCard(i); });
+            dotsContainer.appendChild(dot);
+        });
+
+        track.parentNode.insertBefore(dotsContainer, track.nextSibling);
+        track.addEventListener('scroll', updateDots, { passive: true });
     }
 
-    function stopAutoSlide() {
-        clearInterval(interval);
-        interval = null;
-    }
-
-    if (isMobile()) {
-        startAutoSlide();
-    }
-
-    window.addEventListener('resize', function () {
-        if (isMobile()) {
-            if (!interval) startAutoSlide();
-        } else {
-            stopAutoSlide();
+    function removeDots() {
+        if (dotsContainer) {
+            dotsContainer.parentNode && dotsContainer.parentNode.removeChild(dotsContainer);
+            dotsContainer = null;
+            track.removeEventListener('scroll', updateDots);
         }
-    });
+    }
 
-    // Pause on touch, resume 3s after user lifts finger
-    track.addEventListener('touchstart', function () {
-        stopAutoSlide();
-    }, { passive: true });
+    function init() {
+        if (isMobile()) {
+            buildDots();
+        } else {
+            removeDots();
+        }
+    }
 
-    track.addEventListener('touchend', function () {
-        setTimeout(startAutoSlide, 3000);
-    }, { passive: true });
+    init();
+    window.addEventListener('resize', init);
 });
