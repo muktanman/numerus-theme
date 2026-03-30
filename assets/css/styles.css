@@ -317,6 +317,7 @@ img {
   gap: var(--space-xs);
   color: var(--color-text);
   font-weight: 500;
+  font-family: inherit;
   padding: var(--space-xs) var(--space-sm);
   border-radius: var(--border-radius-sm);
   background: none;
@@ -500,6 +501,7 @@ img {
   padding: var(--space-md) var(--space-xl);
   color: var(--color-text);
   font-weight: 500;
+  font-family: inherit;
   transition: all var(--transition-base);
   background: none;
   border: none;
