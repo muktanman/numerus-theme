@@ -150,59 +150,72 @@ $arrow_svg = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path 
         </div>
     </section>
 
-    <!-- Our Sectors Slider -->
-    <section class="sectors-slider" id="sectorsSlider">
-
-        <?php foreach ( $sectors as $i => $sector ) :
-            $s_url   = esc_url( $sector['sector_url'] );
-            $s_img   = esc_url( $sector['sector_image'] );
-            $s_logo  = esc_url( $sector['sector_logo'] );
-            $s_title = $sector['sector_title'];
-            $s_co    = $sector['sector_company'];
-            $s_desc  = $sector['sector_description'];
-        ?>
-            <div class="sector-slide<?php echo $i === 0 ? ' active' : ''; ?>"
-                 style="background-image: url('<?php echo $s_img; ?>')">
-                <div class="sector-slide__overlay"></div>
-                <div class="container sector-slide__body">
-                    <p class="sectors-eyebrow">Our Sectors</p>
-                    <div class="sector-slide__content">
-                        <div class="sector-slide__logo">
-                            <img src="<?php echo $s_logo; ?>" alt="<?php echo esc_attr( $s_title ); ?>">
-                        </div>
-                        <div class="sector-slide__text">
-                            <h3 class="sector-slide__title"><?php echo wp_kses_post( $s_title ); ?></h3>
-                            <p class="sector-slide__company"><?php echo esc_html( $s_co ); ?></p>
-                            <p class="sector-slide__description"><?php echo esc_html( $s_desc ); ?></p>
-                            <a href="<?php echo $s_url; ?>" class="sector-slide__link">
-                                Learn more <?php echo $arrow_svg; ?>
-                            </a>
-                        </div>
-                    </div>
+    <!-- Sectors Banner (Desktop) -->
+    <div class="desktop-only">
+        <section class="sectors-banner" id="sectorsBanner">
+            <div class="banner-background" id="bannerBackground"></div>
+            <div class="banner-overlay"></div>
+            <div class="container">
+                <p class="sectors-eyebrow">Our Sectors</p>
+                <div class="sectors-row">
+                    <?php foreach ( $sectors as $sector ) :
+                        $s_url   = esc_url( $sector['sector_url'] );
+                        $s_img   = esc_url( $sector['sector_image'] );
+                        $s_logo  = esc_url( $sector['sector_logo'] );
+                        $s_title = $sector['sector_title'];
+                        $s_co    = $sector['sector_company'];
+                        $s_desc  = $sector['sector_description'];
+                    ?>
+                        <a href="<?php echo $s_url; ?>" class="sector-item" data-image="<?php echo $s_img; ?>">
+                            <div class="sector-logo">
+                                <img src="<?php echo $s_logo; ?>" alt="<?php echo esc_attr( $s_title ); ?>">
+                            </div>
+                            <h3 class="sector-title"><?php echo wp_kses_post( $s_title ); ?></h3>
+                            <p class="sector-company"><?php echo esc_html( $s_co ); ?></p>
+                            <p class="sector-description"><?php echo esc_html( $s_desc ); ?></p>
+                            <span class="sector-link">Learn more <?php echo $arrow_svg; ?></span>
+                        </a>
+                    <?php endforeach; ?>
                 </div>
             </div>
-        <?php endforeach; ?>
+        </section>
+    </div>
 
-        <!-- Dots + progress bar -->
-        <div class="sectors-slider__nav">
-            <?php foreach ( $sectors as $i => $sector ) : ?>
-                <button class="sectors-slider__dot<?php echo $i === 0 ? ' active' : ''; ?>"
-                        data-index="<?php echo $i; ?>"
-                        aria-label="<?php echo esc_attr( $sector['sector_title'] ); ?>">
-                    <span class="sectors-slider__dot-fill"></span>
-                </button>
-            <?php endforeach; ?>
-        </div>
-
-        <!-- Prev / Next arrows -->
-        <button class="sectors-slider__arrow sectors-slider__arrow--prev" id="sectorsPrev" aria-label="Previous sector">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-        </button>
-        <button class="sectors-slider__arrow sectors-slider__arrow--next" id="sectorsNext" aria-label="Next sector">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-        </button>
-
-    </section>
+    <!-- Sectors Grid (Mobile) -->
+    <div class="mobile-only">
+        <section class="section sectors-section">
+            <div class="container">
+                <h2 class="section-title">Sectors</h2>
+                <div class="sectors-grid">
+                    <?php foreach ( $sectors as $sector ) :
+                        $s_url   = esc_url( $sector['sector_url'] );
+                        $s_img   = esc_url( $sector['sector_image'] );
+                        $s_title = $sector['sector_title'];
+                        $s_co    = $sector['sector_company'];
+                        $s_desc  = $sector['sector_description'];
+                    ?>
+                        <a href="<?php echo $s_url; ?>" class="sector-card">
+                            <div class="card-image">
+                                <div class="image-placeholder" style="background-image: url('<?php echo $s_img; ?>')"></div>
+                                <div class="card-overlay"></div>
+                            </div>
+                            <div class="card-content">
+                                <h3 class="card-title"><?php echo wp_kses_post( $s_title ); ?></h3>
+                                <p class="card-company"><?php echo esc_html( $s_co ); ?></p>
+                                <p class="card-description"><?php echo esc_html( $s_desc ); ?></p>
+                                <span class="card-link">Learn more <?php echo $arrow_svg; ?></span>
+                            </div>
+                        </a>
+                    <?php endforeach; ?>
+                </div>
+                <div class="carousel-dots" id="sectorsDots">
+                    <?php foreach ( $sectors as $i => $_ ) : ?>
+                        <span class="dot<?php echo $i === 0 ? ' active' : ''; ?>"></span>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </section>
+    </div>
 
     <!-- Trusted by Global Leaders -->
     <section class="section clientele-section">
