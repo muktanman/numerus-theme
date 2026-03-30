@@ -7,17 +7,71 @@ get_header();
 numerus_header( '' );
 $img = get_template_directory_uri() . '/assets/images/';
 
-// ── Field defaults ────────────────────────────────────────────────────────────
-$hero_title          = numerus_get_field( 'hero_title' )             ?: 'Building Sustainable Businesses in Iraq for <span class="hero-title-break">Over 50 Years</span>';
-$about_text          = numerus_get_field( 'about_text' )             ?: 'Numerus Group is a diversified Iraqi conglomerate operating across Logistics, Oil &amp; Gas Services, and Automotive Distribution. With a national footprint and regional offices in the UAE, we deliver reliable, high performance solutions to global partners and local industries.';
-$fp_years_number     = numerus_get_field( 'footprint_years_number' ) ?: '20+';
-$fp_years_label      = numerus_get_field( 'footprint_years_label' )  ?: 'Years of Excellence';
-$fp_jobs_number      = numerus_get_field( 'footprint_jobs_number' )  ?: '250+';
-$fp_jobs_label       = numerus_get_field( 'footprint_jobs_label' )   ?: 'Trained Professionals';
-$fp_text_1           = numerus_get_field( 'footprint_text_1' )       ?: 'Operations across all major Iraqi governorates, supported by offices in Baghdad, Basra, Erbil, and Dubai.';
-$fp_text_2           = numerus_get_field( 'footprint_text_2' )       ?: 'A workforce of 250+ trained professionals across engineering, logistics, operations, and management.';
-$cta_subtitle_1      = numerus_get_field( 'cta_subtitle_1' )         ?: 'Over five decades, Numerus Group has built a diversified portfolio spanning telecom distribution, FMCG, power &amp; energy, and F&amp;B franchises.';
-$cta_subtitle_2      = numerus_get_field( 'cta_subtitle_2' )         ?: 'While these sectors are no longer active or may otherwise been divested from the group, they form the foundation of our reputation for reliability, scale, and operational excellence.';
+// ── Hero ──────────────────────────────────────────────────────────────────────
+$hero_title = numerus_get_field( 'hero_title' ) ?: 'Building Sustainable Businesses in Iraq for <span class="hero-title-break">Over 50 Years</span>';
+
+// ── About Us ──────────────────────────────────────────────────────────────────
+$about_text = numerus_get_field( 'about_text' ) ?: 'Numerus Group is a diversified Iraqi conglomerate operating across Logistics, Oil &amp; Gas Services, and Automotive Distribution. With a national footprint and regional offices in the UAE, we deliver reliable, high performance solutions to global partners and local industries.';
+
+// ── Our Sectors ───────────────────────────────────────────────────────────────
+$sectors_raw = numerus_get_field( 'sectors' );
+$sectors = $sectors_raw ?: [
+    [
+        'sector_image'       => $img . 'fedex-spotlight.png',
+        'sector_logo'        => $img . 'estilam-logo.png',
+        'sector_title'       => 'Logistics',
+        'sector_company'     => 'Al-Estilam Express Cargo Company',
+        'sector_description' => 'A nationwide express courier and cargo network, operating as the fully deployed General Services Provider for FedEx and TNT in Iraq, supported by secure hubs, cross border trucking, and advanced distribution systems.',
+        'sector_url'         => home_url( '/logistics' ),
+    ],
+    [
+        'sector_image'       => $img . 'sectors-automotive.png',
+        'sector_logo'        => $img . 'leading-star-logo.svg',
+        'sector_title'       => 'Automotive',
+        'sector_company'     => 'Leading Star Automotive Company',
+        'sector_description' => 'As the authorized distributor for Mercedes Benz commercial vehicles in the Kurdistan Region, we offer world class sales, service, and after sales support through Leading Star Automotive.',
+        'sector_url'         => home_url( '/automotive' ),
+    ],
+    [
+        'sector_image'       => $img . 'banner-2.jpg',
+        'sector_logo'        => $img . 'agos-logo.jpg',
+        'sector_title'       => 'Oil &amp; Gas',
+        'sector_company'     => 'Al-Gharraf Oil Services (AGOS)',
+        'sector_description' => 'Through Al Gharraf Oil Services (AGOS), we provide integrated camp services, manpower, logistics, and operational support to international oil companies across Iraq\'s upstream sector.',
+        'sector_url'         => home_url( '/oil-gas' ),
+    ],
+];
+
+// ── Trusted by Global Leaders ────────────────────────────────────────────────
+$clients_title = numerus_get_field( 'clients_title' ) ?: 'Trusted by Global Leaders';
+$clients_raw   = numerus_get_field( 'clients' );
+$clients = $clients_raw ?: [
+    [ 'client_logo' => $img . 'bakerhughes-logo.png',  'client_name' => 'Baker Hughes' ],
+    [ 'client_logo' => $img . 'petrofac-logo.png',     'client_name' => 'Petrofac' ],
+    [ 'client_logo' => $img . 'fedex-logo.png',        'client_name' => 'FedEx' ],
+    [ 'client_logo' => $img . 'tnt-logo.png',          'client_name' => 'TNT' ],
+    [ 'client_logo' => $img . 'mercedesbenz-logo.svg', 'client_name' => 'Mercedes-Benz' ],
+    [ 'client_logo' => $img . 'zain-logo.svg',         'client_name' => 'Zain' ],
+    [ 'client_logo' => $img . 'fonterra-logo.png',     'client_name' => 'Fonterra' ],
+    [ 'client_logo' => $img . 'wartsila-logo.png',     'client_name' => 'Wärtsilä' ],
+    [ 'client_logo' => $img . 'parsons-logo.png',      'client_name' => 'Parsons' ],
+    [ 'client_logo' => $img . 'marathonoil-logo.svg',  'client_name' => 'Marathon Oil' ],
+    [ 'client_logo' => $img . 'raytheon-logo.svg',     'client_name' => 'Raytheon' ],
+];
+
+// ── Our Footprint ─────────────────────────────────────────────────────────────
+$fp_text_1       = numerus_get_field( 'footprint_text_1' )       ?: 'Operations across all major Iraqi governorates, supported by offices in Baghdad, Basra, Erbil, and Dubai.';
+$fp_text_2       = numerus_get_field( 'footprint_text_2' )       ?: 'A workforce of 250+ trained professionals across engineering, logistics, operations, and management.';
+$fp_years_number = numerus_get_field( 'footprint_years_number' ) ?: '20+';
+$fp_years_label  = numerus_get_field( 'footprint_years_label' )  ?: 'Years of Excellence';
+$fp_jobs_number  = numerus_get_field( 'footprint_jobs_number' )  ?: '250+';
+$fp_jobs_label   = numerus_get_field( 'footprint_jobs_label' )   ?: 'Trained Professionals';
+
+// ── Legacy CTA ────────────────────────────────────────────────────────────────
+$cta_subtitle_1 = numerus_get_field( 'cta_subtitle_1' ) ?: 'Over five decades, Numerus Group has built a diversified portfolio spanning telecom distribution, FMCG, power &amp; energy, and F&amp;B franchises.';
+$cta_subtitle_2 = numerus_get_field( 'cta_subtitle_2' ) ?: 'While these sectors are no longer active or may otherwise been divested from the group, they form the foundation of our reputation for reliability, scale, and operational excellence.';
+
+$arrow_svg = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33334 8H12.6667M12.6667 8L8.66668 4M12.6667 8L8.66668 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 ?>
 <main class="main">
 
@@ -56,7 +110,6 @@ $cta_subtitle_2      = numerus_get_field( 'cta_subtitle_2' )         ?: 'While t
                     [ 'polyline' => 'M23 6 13.5 15.5 8.5 10.5 1 18M17 6 23 6 23 12', 'text' => '20+ years of operational excellence' ],
                     [ 'path' => 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z', 'text' => 'Trusted by Fortune 500 companies' ],
                 ];
-                // Output twice for infinite scroll
                 for ( $r = 0; $r < 2; $r++ ) {
                     foreach ( $ticker_items as $item ) {
                         echo '<div class="ticker-item"><div class="ticker-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">';
@@ -75,12 +128,12 @@ $cta_subtitle_2      = numerus_get_field( 'cta_subtitle_2' )         ?: 'While t
         </div>
     </section>
 
-    <!-- About Section -->
+    <!-- About Us -->
     <section class="section about-section">
         <div class="container">
             <div class="about-content">
                 <h2 class="about-title">About</h2>
-                <p class="about-text"><?php echo wp_kses( $about_text, [ 'a' => [ 'href' => [] ] ] ); ?></p>
+                <p class="about-text"><?php echo esc_html( $about_text ); ?></p>
                 <a href="<?php echo esc_url( home_url( '/contact' ) ); ?>" class="btn btn-primary">Contact Us</a>
             </div>
         </div>
@@ -94,30 +147,24 @@ $cta_subtitle_2      = numerus_get_field( 'cta_subtitle_2' )         ?: 'While t
             <div class="container">
                 <p class="sectors-eyebrow">Our Sectors</p>
                 <div class="sectors-row">
-                    <a href="<?php echo esc_url( home_url( '/logistics' ) ); ?>" class="sector-item" data-image="<?php echo esc_url( $img . 'fedex-spotlight.png' ); ?>" data-sector="logistics">
-                        <div class="sector-logo"><img src="<?php echo esc_url( $img . 'estilam-logo.png' ); ?>" alt="Al-Estilam Express"></div>
-                        <h3 class="sector-title">Logistics</h3>
-                        <p class="sector-company">Al-Estilam Express Cargo Company</p>
-                        <p class="sector-description">A nationwide express courier and cargo network, operating as the fully deployed General Services Provider for FedEx and TNT in Iraq, supported by secure hubs, cross border trucking, and advanced distribution systems.</p>
-                        <span class="sector-link">Learn more <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33334 8H12.6667M12.6667 8L8.66668 4M12.6667 8L8.66668 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                    </a>
-                    <a href="<?php echo esc_url( home_url( '/automotive' ) ); ?>" class="sector-item" data-image="<?php echo esc_url( $img . 'sectors-automotive.png' ); ?>" data-sector="automotive">
-                        <div class="sector-logo ls-lockup-v">
-                            <img src="<?php echo esc_url( $img . 'leading-star-logo.svg' ); ?>" alt="Leading Star" class="ls-lockup-star-v">
-                            <div class="ls-lockup-text-v"><span class="ls-lockup-name-v">Leading Star</span><span class="ls-lockup-sub-v">Automotive</span></div>
-                        </div>
-                        <h3 class="sector-title">Automotive</h3>
-                        <p class="sector-company">Leading Star Automotive Company</p>
-                        <p class="sector-description">As the authorized distributor for Mercedes Benz commercial vehicles in the Kurdistan Region, we offer world class sales, service, and after sales support through Leading Star Automotive.</p>
-                        <span class="sector-link">Learn more <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33334 8H12.6667M12.6667 8L8.66668 4M12.6667 8L8.66668 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                    </a>
-                    <a href="<?php echo esc_url( home_url( '/oil-gas' ) ); ?>" class="sector-item" data-image="<?php echo esc_url( $img . 'banner-2.jpg' ); ?>" data-sector="oilgas">
-                        <div class="sector-logo"><img src="<?php echo esc_url( $img . 'agos-logo.jpg' ); ?>" alt="AGOS"></div>
-                        <h3 class="sector-title">Oil &amp; Gas</h3>
-                        <p class="sector-company">Al-Gharraf Oil Services (AGOS)</p>
-                        <p class="sector-description">Through Al Gharraf Oil Services (AGOS), we provide integrated camp services, manpower, logistics, and operational support to international oil companies across Iraq's upstream sector.</p>
-                        <span class="sector-link">Learn more <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33334 8H12.6667M12.6667 8L8.66668 4M12.6667 8L8.66668 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                    </a>
+                    <?php foreach ( $sectors as $sector ) :
+                        $s_url   = esc_url( $sector['sector_url'] );
+                        $s_img   = esc_url( $sector['sector_image'] );
+                        $s_logo  = esc_url( $sector['sector_logo'] );
+                        $s_title = $sector['sector_title'];
+                        $s_co    = $sector['sector_company'];
+                        $s_desc  = $sector['sector_description'];
+                    ?>
+                        <a href="<?php echo $s_url; ?>" class="sector-item" data-image="<?php echo $s_img; ?>">
+                            <div class="sector-logo">
+                                <img src="<?php echo $s_logo; ?>" alt="<?php echo esc_attr( $s_title ); ?>">
+                            </div>
+                            <h3 class="sector-title"><?php echo wp_kses_post( $s_title ); ?></h3>
+                            <p class="sector-company"><?php echo esc_html( $s_co ); ?></p>
+                            <p class="sector-description"><?php echo esc_html( $s_desc ); ?></p>
+                            <span class="sector-link">Learn more <?php echo $arrow_svg; ?></span>
+                        </a>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </section>
@@ -129,34 +176,41 @@ $cta_subtitle_2      = numerus_get_field( 'cta_subtitle_2' )         ?: 'While t
             <div class="container">
                 <h2 class="section-title">Sectors</h2>
                 <div class="sectors-grid">
-                    <?php
-                    $sector_cards = [
-                        [ 'url' => '/logistics',  'img' => 'logistics.jpg',    'title' => 'Logistics',   'company' => 'Al-Estilam Express Cargo Company',   'desc' => 'A nationwide express courier and cargo network, operating as the fully deployed General Services Provider for FedEx and TNT in Iraq, supported by secure hubs, cross border trucking, and advanced distribution systems.' ],
-                        [ 'url' => '/automotive', 'img' => 'automotive.avif',  'title' => 'Automotive',  'company' => 'Leading Star Automotive Company',     'desc' => 'As the authorized distributor for Mercedes Benz commercial vehicles in the Kurdistan Region, we offer world class sales, service, and after sales support through Leading Star Automotive.' ],
-                        [ 'url' => '/oil-gas',    'img' => 'oil-gas.jpg',      'title' => 'Oil & Gas',   'company' => 'Al-Gharraf Oil Services (AGOS)',       'desc' => 'Through Al Gharraf Oil Services (AGOS), we provide integrated camp services, manpower, logistics, and operational support to international oil companies across Iraq\'s upstream sector.' ],
-                    ];
-                    foreach ( $sector_cards as $card ) {
-                        echo '<a href="' . esc_url( home_url( $card['url'] ) ) . '" class="sector-card">';
-                        echo '<div class="card-image"><div class="image-placeholder" style="background-image: url(\'' . esc_url( $img . $card['img'] ) . '\')"></div><div class="card-overlay"></div></div>';
-                        echo '<div class="card-content"><h3 class="card-title">' . esc_html( $card['title'] ) . '</h3><p class="card-company">' . esc_html( $card['company'] ) . '</p><p class="card-description">' . esc_html( $card['desc'] ) . '</p><span class="card-link">Learn more <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33334 8H12.6667M12.6667 8L8.66668 4M12.6667 8L8.66668 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>';
-                        echo '</a>';
-                    }
+                    <?php foreach ( $sectors as $sector ) :
+                        $s_url   = esc_url( $sector['sector_url'] );
+                        $s_img   = esc_url( $sector['sector_image'] );
+                        $s_title = $sector['sector_title'];
+                        $s_co    = $sector['sector_company'];
+                        $s_desc  = $sector['sector_description'];
                     ?>
+                        <a href="<?php echo $s_url; ?>" class="sector-card">
+                            <div class="card-image">
+                                <div class="image-placeholder" style="background-image: url('<?php echo $s_img; ?>')"></div>
+                                <div class="card-overlay"></div>
+                            </div>
+                            <div class="card-content">
+                                <h3 class="card-title"><?php echo wp_kses_post( $s_title ); ?></h3>
+                                <p class="card-company"><?php echo esc_html( $s_co ); ?></p>
+                                <p class="card-description"><?php echo esc_html( $s_desc ); ?></p>
+                                <span class="card-link">Learn more <?php echo $arrow_svg; ?></span>
+                            </div>
+                        </a>
+                    <?php endforeach; ?>
                 </div>
                 <div class="carousel-dots" id="sectorsDots">
-                    <span class="dot active"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
+                    <?php foreach ( $sectors as $i => $_ ) : ?>
+                        <span class="dot<?php echo $i === 0 ? ' active' : ''; ?>"></span>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </section>
     </div>
 
-    <!-- Clientele / Logo Slider -->
+    <!-- Trusted by Global Leaders -->
     <section class="section clientele-section">
         <div class="container">
             <div class="clientele-content">
-                <h2 class="clientele-title">Trusted by Global Leaders</h2>
+                <h2 class="clientele-title"><?php echo esc_html( $clients_title ); ?></h2>
             </div>
         </div>
         <div class="slider-wrapper">
@@ -165,10 +219,12 @@ $cta_subtitle_2      = numerus_get_field( 'cta_subtitle_2' )         ?: 'While t
             <div class="client-slider">
                 <div class="slider-track">
                     <?php
-                    $logos = [ 'bakerhughes-logo.png' => 'Baker Hughes', 'petrofac-logo.png' => 'Petrofac', 'fedex-logo.png' => 'FedEx', 'tnt-logo.png' => 'TNT', 'mercedesbenz-logo.svg' => 'Mercedes-Benz', 'zain-logo.svg' => 'Zain', 'fonterra-logo.png' => 'Fonterra', 'wartsila-logo.png' => 'Wärtsilä', 'parsons-logo.png' => 'Parsons', 'marathonoil-logo.svg' => 'Marathon Oil', 'raytheon-logo.svg' => 'Raytheon' ];
+                    // Output twice for infinite marquee
                     for ( $r = 0; $r < 2; $r++ ) {
-                        foreach ( $logos as $file => $alt ) {
-                            echo '<div class="client-logo"><img src="' . esc_url( $img . $file ) . '" alt="' . esc_attr( $alt ) . '"></div>';
+                        foreach ( $clients as $client ) {
+                            $logo = esc_url( $client['client_logo'] );
+                            $name = esc_attr( $client['client_name'] );
+                            echo '<div class="client-logo"><img src="' . $logo . '" alt="' . $name . '"></div>';
                         }
                     }
                     ?>
@@ -177,7 +233,7 @@ $cta_subtitle_2      = numerus_get_field( 'cta_subtitle_2' )         ?: 'While t
         </div>
     </section>
 
-    <!-- Footprint / Vision Section -->
+    <!-- Our Footprint -->
     <section class="section vision-section" id="visionSection">
         <div class="container">
             <div class="vision-grid">
@@ -189,20 +245,26 @@ $cta_subtitle_2      = numerus_get_field( 'cta_subtitle_2' )         ?: 'While t
                     <p class="vision-text"><?php echo esc_html( $fp_text_1 ); ?></p>
                     <p class="vision-text"><?php echo esc_html( $fp_text_2 ); ?></p>
                     <div class="vision-metrics">
-                        <div class="metric"><span class="metric-number" id="yearsMetric"><?php echo esc_html( $fp_years_number ); ?></span><span class="metric-label"><?php echo esc_html( $fp_years_label ); ?></span></div>
-                        <div class="metric"><span class="metric-number" id="jobsMetric"><?php echo esc_html( $fp_jobs_number ); ?></span><span class="metric-label"><?php echo esc_html( $fp_jobs_label ); ?></span></div>
+                        <div class="metric">
+                            <span class="metric-number" id="yearsMetric"><?php echo esc_html( $fp_years_number ); ?></span>
+                            <span class="metric-label"><?php echo esc_html( $fp_years_label ); ?></span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-number" id="jobsMetric"><?php echo esc_html( $fp_jobs_number ); ?></span>
+                            <span class="metric-label"><?php echo esc_html( $fp_jobs_label ); ?></span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CTA Banner -->
+    <!-- Legacy CTA -->
     <section class="cta-banner">
         <div class="cta-background"></div>
         <div class="container">
             <div class="cta-content">
-                <p class="cta-subtitle"><strong><?php echo wp_kses( $cta_subtitle_1, [ 'strong' => [] ] ); ?></strong></p>
+                <p class="cta-subtitle"><strong><?php echo esc_html( $cta_subtitle_1 ); ?></strong></p>
                 <p class="cta-subtitle"><?php echo esc_html( $cta_subtitle_2 ); ?></p>
                 <a href="<?php echo esc_url( home_url( '/contact' ) ); ?>" class="btn cta-button">
                     Partner With Us
@@ -213,5 +275,4 @@ $cta_subtitle_2      = numerus_get_field( 'cta_subtitle_2' )         ?: 'While t
     </section>
 
 </main>
-<?php
-get_footer();
+<?php get_footer(); ?>
