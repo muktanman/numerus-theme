@@ -6,11 +6,11 @@
  * can manage everything through the WordPress admin.
  *
  * Runs once when any admin page loads. After first successful run the
- * option 'numerus_migration_v3_done' is set and the function exits
+ * option 'numerus_migration_v4_done' is set and the function exits
  * immediately on every subsequent call.
  *
  * To re-run: delete the option from the DB or call
- *   delete_option('numerus_migration_v3_done');
+ *   delete_option('numerus_migration_v4_done');
  */
 
 // ── Helper: import a theme asset into the media library ───────────────────────
@@ -64,7 +64,7 @@ if ( ! function_exists( 'numerus_import_image' ) ) {
 
 // ── Main migration function ────────────────────────────────────────────────────
 function numerus_run_migration(): void {
-    if ( get_option( 'numerus_migration_v3_done' ) ) return;
+    if ( get_option( 'numerus_migration_v4_done' ) ) return;
     if ( ! function_exists( 'update_field' ) )        return;
 
     // ── HOME (page ID 5) ─────────────────────────────────────────────────────
@@ -194,6 +194,9 @@ function numerus_run_migration(): void {
     update_field( 'form_section_title',     'Get in Touch',   $contact );
     update_field( 'offices_section_title',  'Our Offices',    $contact );
     update_field( 'submit_button_text',     'Send Message',   $contact );
+    update_field( 'notification_email',     get_option( 'admin_email' ), $contact );
+    update_field( 'notification_cc',        '',               $contact );
+    update_field( 'notification_subject',   'New Contact Form Submission — Numerus Group', $contact );
 
     update_field( 'offices', [
         [ 'office_city' => 'Baghdad', 'office_address' => 'Al Karrada, District 905, Street 1, Building 8', 'office_phone' => '+964 (1) 717 8456/7' ],
@@ -336,7 +339,7 @@ function numerus_run_migration(): void {
     ], $tr );
 
     // ── Done ─────────────────────────────────────────────────────────────────
-    update_option( 'numerus_migration_v3_done', true );
+    update_option( 'numerus_migration_v4_done', true );
 }
 
 add_action( 'admin_init', 'numerus_run_migration' );

@@ -344,14 +344,49 @@ function numerus_handle_contact() {
         return;
     }
 
-    // ── 8. Send email ─────────────────────────────────────────────────────────
-    $to      = get_option( 'admin_email' );
-    $subject = "New Contact Form Submission — Numerus Group";
-    $body    = "Name: {$name}\nEmail: {$email}\nCompany: {$company}\n\nMessage:\n{$message}\n\n---\nIP: {$ip}";
+    // ── 8. Load notification settings from the Contact page SCF fields ───────
+    $contact_pages = get_posts( [
+        'post_type'      => 'page',
+        'posts_per_page' => 1,
+        'meta_key'       => '_wp_page_template',
+        'meta_value'     => 'page-templates/page-contact.php',
+        'fields'         => 'ids',
+    ] );
+    $contact_id = $contact_pages ? $contact_pages[0] : 0;
+
+    $notify_to      = $contact_id && function_exists( 'get_field' ) ? get_field( 'notification_email', $contact_id ) : '';
+    $notify_cc      = $contact_id && function_exists( 'get_field' ) ? get_field( 'notification_cc',    $contact_id ) : '';
+    $notify_subject = $contact_id && function_exists( 'get_field' ) ? get_field( 'notification_subject', $contact_id ) : '';
+
+    $to      = $notify_to      ? $notify_to      : get_option( 'admin_email' );
+    $subject = $notify_subject ? $notify_subject : 'New Contact Form Submission — Numerus Group';
+
+    // ── 9. Build a clear, labelled email body ─────────────────────────────────
+    $body  = "You have a new contact form submission from the Numerus Group website.\n";
+    $body .= str_repeat( '-', 50 ) . "\n\n";
+    $body .= "Name:    {$name}\n";
+    $body .= "Email:   {$email}\n";
+    if ( $company ) {
+        $body .= "Company: {$company}\n";
+    }
+    $body .= "\nMessage:\n{$message}\n\n";
+    $body .= str_repeat( '-', 50 ) . "\n";
+    $body .= "Submitted: " . date( 'D, d M Y H:i:s T' ) . "\n";
+    $body .= "IP Address: {$ip}\n";
+
     $headers = [
         'Content-Type: text/plain; charset=UTF-8',
         "Reply-To: {$name} <{$email}>",
     ];
+
+    if ( $notify_cc ) {
+        // Support comma-separated CC addresses
+        foreach ( array_map( 'trim', explode( ',', $notify_cc ) ) as $cc_addr ) {
+            if ( is_email( $cc_addr ) ) {
+                $headers[] = "Cc: {$cc_addr}";
+            }
+        }
+    }
 
     $sent = wp_mail( $to, $subject, $body, $headers );
 

@@ -445,6 +445,34 @@ acf_add_local_field_group( [
             'type'  => 'text',
             'wrapper' => [ 'width' => '50' ],
         ],
+
+        // ── TAB: Notifications ────────────────────────────────────────────
+        [ 'key' => 'field_contact_tab_notifications', 'label' => 'Notifications', 'name' => '', 'type' => 'tab' ],
+        [
+            'key'          => 'field_contact_notify_to',
+            'label'        => 'Send Submissions To',
+            'name'         => 'notification_email',
+            'type'         => 'text',
+            'instructions' => 'Email address that receives form submissions. Separate multiple addresses with commas.',
+            'placeholder'  => 'you@example.com',
+            'required'     => 1,
+        ],
+        [
+            'key'          => 'field_contact_notify_cc',
+            'label'        => 'CC (optional)',
+            'name'         => 'notification_cc',
+            'type'         => 'text',
+            'instructions' => 'Optional. Comma-separated addresses to CC on every submission.',
+            'wrapper'      => [ 'width' => '50' ],
+        ],
+        [
+            'key'          => 'field_contact_notify_subject',
+            'label'        => 'Email Subject',
+            'name'         => 'notification_subject',
+            'type'         => 'text',
+            'instructions' => 'Subject line of the notification email.',
+            'wrapper'      => [ 'width' => '50' ],
+        ],
     ],
     'location' => [ [ [ 'param' => 'page_template', 'operator' => '==', 'value' => 'page-templates/page-contact.php' ] ] ],
 ] );
