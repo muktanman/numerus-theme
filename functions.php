@@ -3,6 +3,54 @@
  * Numerus Group Theme Functions
  */
 
+/**
+ * Safe wrapper around SCF/ACF get_field().
+ * Returns false (triggers fallback) when SCF is not active.
+ */
+if ( ! function_exists( 'numerus_get_field' ) ) {
+    function numerus_get_field( $selector, $post_id = false ) {
+        if ( function_exists( 'get_field' ) ) {
+            return get_field( $selector, $post_id );
+        }
+        return false;
+    }
+}
+
+// SCF (Secure Custom Fields) field group definitions.
+// Hook on acf/include_fields which fires during SCF's own init sequence.
+add_action( 'acf/include_fields', function () {
+    require_once get_template_directory() . '/inc/scf-fields.php';
+} );
+
+// Auto-expand the Gutenberg Meta Boxes panel so SCF fields are visible on page load.
+add_action( 'admin_footer-post.php', function () {
+    $screen = get_current_screen();
+    if ( ! $screen || $screen->post_type !== 'page' ) return;
+    ?>
+    <script>
+    (function () {
+        function expandMetaBoxes() {
+            var inner = document.querySelector('.edit-post-layout__metaboxes');
+            if (inner) {
+                inner.removeAttribute('hidden');
+                var panel = document.querySelector('.edit-post-meta-boxes-main');
+                if (panel && panel.offsetHeight < 200) {
+                    panel.style.height = '500px';
+                }
+                return true;
+            }
+            return false;
+        }
+        // Retry until Gutenberg has rendered
+        var tries = 0;
+        var interval = setInterval(function () {
+            if (expandMetaBoxes() || ++tries > 30) clearInterval(interval);
+        }, 300);
+    })();
+    </script>
+    <?php
+} );
+
 // -------------------------------------------------------------------------
 // Theme Setup
 // -------------------------------------------------------------------------
@@ -47,6 +95,10 @@ function numerus_enqueue_assets() {
 
     if ( is_page( 'about' ) ) {
         wp_enqueue_script( 'numerus-about', $uri . '/assets/js/about.js', [ 'numerus-main' ], $ver, true );
+    }
+
+    if ( is_page( 'track-record' ) ) {
+        wp_enqueue_script( 'numerus-track-record', $uri . '/assets/js/track-record.js', [ 'numerus-main' ], $ver, true );
     }
 
     if ( is_page( 'contact' ) ) {

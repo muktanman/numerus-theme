@@ -6,6 +6,25 @@
 get_header();
 numerus_header( 'sectors' );
 $img = get_template_directory_uri() . '/assets/images/';
+
+// ── Field defaults ────────────────────────────────────────────────────────────
+$header_title    = numerus_get_field( 'page_header_title' )    ?: 'Oil &amp; Gas';
+$header_subtitle = numerus_get_field( 'page_header_subtitle' ) ?: 'Integrated support services across Iraq\'s energy and utilities sectors';
+$about_text      = numerus_get_field( 'about_text' )           ?: 'Al Gharraf Oil Services (AGOS) delivers integrated support services to international oil companies and EPC contractors operating in Iraq\'s upstream sector. Our experience spans camp construction, life support, manpower, logistics, and specialized engineering services.';
+$experience_text = numerus_get_field( 'experience_text' )      ?: 'AGOS has supported drilling, production, and field development operations across southern Iraq, delivering reliable services in challenging environments with a strong focus on safety and compliance.';
+
+$services_raw = numerus_get_field( 'services' );
+$services = $services_raw ?: [
+    [ 'service_text' => 'Water Treatment / Desalination Plant O&M' ],
+    [ 'service_text' => 'Camp construction and accommodation units' ],
+    [ 'service_text' => 'Catering, life support, and O&M of remote camps' ],
+    [ 'service_text' => 'Manpower supply and payroll management' ],
+    [ 'service_text' => 'Fuel and water supply services' ],
+    [ 'service_text' => 'Waste management and environmental services' ],
+    [ 'service_text' => 'Logistics, transport, and trucking' ],
+    [ 'service_text' => 'Cathodic protection engineering and installation' ],
+    [ 'service_text' => 'Supply of valves, pipes, drill bits, and O&G materials' ],
+];
 ?>
 <main class="main">
 <div class="oil-gas-page">
@@ -13,8 +32,8 @@ $img = get_template_directory_uri() . '/assets/images/';
     <section class="page-header">
         <div class="page-header-overlay">
             <div class="container">
-                <h1 class="page-header-title">Oil &amp; Gas</h1>
-                <p class="page-header-subtitle">Integrated support services across Iraq's energy and utilities sectors</p>
+                <h1 class="page-header-title"><?php echo wp_kses_post( $header_title ); ?></h1>
+                <p class="page-header-subtitle"><?php echo esc_html( $header_subtitle ); ?></p>
             </div>
         </div>
     </section>
@@ -29,7 +48,7 @@ $img = get_template_directory_uri() . '/assets/images/';
                 </div>
                 <div class="intro-content intro-content--left">
                     <h2 class="section-title">ABOUT AGOS</h2>
-                    <p class="intro-text">Al Gharraf Oil Services (AGOS) delivers integrated support services to international oil companies and EPC contractors operating in Iraq's upstream sector. Our experience spans camp construction, life support, manpower, logistics, and specialized engineering services.</p>
+                    <p class="intro-text"><?php echo esc_html( $about_text ); ?></p>
                 </div>
             </div>
         </div>
@@ -41,22 +60,13 @@ $img = get_template_directory_uri() . '/assets/images/';
         <div class="container section-content-layer">
             <h3 class="section-title light">SERVICES</h3>
             <div class="capability-cards">
-                <?php
-                $services = [
-                    'Water Treatment / Desalination Plant O&M',
-                    'Camp construction and accommodation units',
-                    'Catering, life support, and O&M of remote camps',
-                    'Manpower supply and payroll management',
-                    'Fuel and water supply services',
-                    'Waste management and environmental services',
-                    'Logistics, transport, and trucking',
-                    'Cathodic protection engineering and installation',
-                    'Supply of valves, pipes, drill bits, and O&G materials',
-                ];
-                foreach ( $services as $svc ) {
-                    echo '<div class="capability-card"><span class="capability-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span><p><strong>' . esc_html( $svc ) . '</strong></p><a href="' . esc_url( home_url( '/service-detail' ) ) . '" class="capability-learn-more">Learn More</a></div>';
-                }
-                ?>
+                <?php foreach ( $services as $svc ) : ?>
+                    <div class="capability-card">
+                        <span class="capability-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+                        <p><strong><?php echo esc_html( $svc['service_text'] ); ?></strong></p>
+                        <a href="<?php echo esc_url( home_url( '/service-detail' ) ); ?>" class="capability-learn-more">Learn More</a>
+                    </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </section>
@@ -82,7 +92,7 @@ $img = get_template_directory_uri() . '/assets/images/';
         <div class="experience-banner__overlay"></div>
         <div class="container experience-banner__content">
             <h2 class="section-title light section-title--center">EXPERIENCE</h2>
-            <p class="experience-text">AGOS has supported drilling, production, and field development operations across southern Iraq, delivering reliable services in challenging environments with a strong focus on safety and compliance.</p>
+            <p class="experience-text"><?php echo esc_html( $experience_text ); ?></p>
         </div>
     </section>
 

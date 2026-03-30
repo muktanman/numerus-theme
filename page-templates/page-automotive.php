@@ -6,6 +6,12 @@
 get_header();
 numerus_header( 'sectors' );
 $img = get_template_directory_uri() . '/assets/images/';
+
+// ── Field defaults ────────────────────────────────────────────────────────────
+$header_title    = numerus_get_field( 'page_header_title' )    ?: 'Automotive';
+$header_subtitle = numerus_get_field( 'page_header_subtitle' ) ?: 'Premium commercial vehicle solutions for Iraq\'s industrial sectors';
+$about_text      = numerus_get_field( 'about_text' )           ?: 'Leading Star Automotive, a joint venture between Numerus Group and Gargash (UAE), is the authorized distributor for Mercedes Benz commercial vehicles in the Kurdistan Region of Iraq.';
+$commitment_text = numerus_get_field( 'commitment_text' )      ?: 'We deliver world class sales and service experiences, ensuring reliability, performance, and long term value for commercial fleets across the region.';
 ?>
 <main class="main">
 <div class="automotive-page">
@@ -13,8 +19,8 @@ $img = get_template_directory_uri() . '/assets/images/';
     <section class="page-header">
         <div class="page-header-overlay">
             <div class="container">
-                <h1 class="page-header-title">Automotive</h1>
-                <p class="page-header-subtitle">Premium commercial vehicle solutions for Iraq's industrial sectors</p>
+                <h1 class="page-header-title"><?php echo esc_html( $header_title ); ?></h1>
+                <p class="page-header-subtitle"><?php echo esc_html( $header_subtitle ); ?></p>
             </div>
         </div>
     </section>
@@ -24,7 +30,7 @@ $img = get_template_directory_uri() . '/assets/images/';
         <div class="container">
             <div class="intro-content intro-content--full">
                 <h2 class="section-title">ABOUT</h2>
-                <p class="intro-text">Leading Star Automotive, a joint venture between Numerus Group and Gargash (UAE), is the authorized distributor for Mercedes Benz commercial vehicles in the Kurdistan Region of Iraq.</p>
+                <p class="intro-text"><?php echo esc_html( $about_text ); ?></p>
             </div>
             <div class="partners-grid partners-grid-2 partners-grid--top-space">
                 <div class="partner-card">
@@ -71,7 +77,7 @@ $img = get_template_directory_uri() . '/assets/images/';
     <section class="services-section services-section--flex-center">
         <div class="container section-content-layer--centered">
             <h2 class="section-title light section-title--center">COMMITMENT</h2>
-            <p class="experience-text">We deliver world class sales and service experiences, ensuring reliability, performance, and long term value for commercial fleets across the region.</p>
+            <p class="experience-text"><?php echo esc_html( $commitment_text ); ?></p>
         </div>
     </section>
 

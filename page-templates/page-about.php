@@ -6,6 +6,40 @@
 get_header();
 numerus_header( 'about' );
 $img = get_template_directory_uri() . '/assets/images/';
+
+// ── Field defaults ────────────────────────────────────────────────────────────
+$header_title    = numerus_get_field( 'page_header_title' )    ?: 'About Numerus';
+$header_subtitle = numerus_get_field( 'page_header_subtitle' ) ?: 'A legacy of excellence spanning generations';
+$who_we_are_text = numerus_get_field( 'who_we_are_text' )      ?: 'Numerus Group is a multi sector business group with deep roots in Iraq\'s economic development. Since the 1970s, we have partnered with leading global companies to deliver complex projects in logistics, energy, infrastructure, and consumer markets. Today, our focus is on three high impact sectors where we maintain strong operational capabilities and long standing client relationships.';
+$mission_text    = numerus_get_field( 'mission_text' )         ?: 'To build and operate sustainable, high performance businesses that create long term value for our partners, employees, and the Iraqi economy.';
+$vision_text     = numerus_get_field( 'vision_text' )          ?: 'We strive to be leaders in best-practice operations, innovation and performance excellence, and long-term value creation for all stakeholders.';
+$cta_title       = numerus_get_field( 'cta_title' )            ?: 'Ready to Enter the Iraqi Market?';
+$cta_subtitle    = numerus_get_field( 'cta_subtitle' )         ?: 'Let\'s discuss how we can help you succeed';
+
+$values_raw = numerus_get_field( 'values' );
+$values = $values_raw ?: [
+    [ 'value_number' => '01', 'value_name' => 'Excellence' ],
+    [ 'value_number' => '02', 'value_name' => 'Integrity' ],
+    [ 'value_number' => '03', 'value_name' => 'Ownership' ],
+    [ 'value_number' => '04', 'value_name' => 'Teamwork' ],
+    [ 'value_number' => '05', 'value_name' => 'Innovation' ],
+    [ 'value_number' => '06', 'value_name' => 'Differentiation' ],
+    [ 'value_number' => '07', 'value_name' => 'Perseverance' ],
+    [ 'value_number' => '08', 'value_name' => 'Mutuality' ],
+    [ 'value_number' => '09', 'value_name' => 'Pride' ],
+    [ 'value_number' => '10', 'value_name' => 'Passion' ],
+];
+
+$timeline_raw = numerus_get_field( 'timeline' );
+$timeline = $timeline_raw ?: [
+    [ 'timeline_year' => '1970s–1990s', 'timeline_description' => 'Major industrial and infrastructure projects including cement plants, railroads, power stations, and large scale civil works.' ],
+    [ 'timeline_year' => '2003–2007',   'timeline_description' => '600 MW of power generation projects delivered with Wärtsilä.' ],
+    [ 'timeline_year' => '2003–Present','timeline_description' => 'Exclusive FedEx GSP in Iraq, building a nationwide logistics network.' ],
+    [ 'timeline_year' => '2004–2021',   'timeline_description' => 'Telecom distribution for IraQna and later Zain Iraq.' ],
+    [ 'timeline_year' => '2004–2025',   'timeline_description' => 'FMCG distribution leadership through Al Awsat.' ],
+    [ 'timeline_year' => '2010–Present','timeline_description' => 'Oil & Gas services through AGOS.' ],
+    [ 'timeline_year' => '2014–Present','timeline_description' => 'Mercedes Benz commercial vehicles dealership in Kurdistan.' ],
+];
 ?>
 <main class="main">
 <div class="about-page">
@@ -14,8 +48,8 @@ $img = get_template_directory_uri() . '/assets/images/';
     <section class="page-header">
         <div class="page-header-overlay">
             <div class="container">
-                <h1 class="page-header-title">About Numerus</h1>
-                <p class="page-header-subtitle">A legacy of excellence spanning generations</p>
+                <h1 class="page-header-title"><?php echo esc_html( $header_title ); ?></h1>
+                <p class="page-header-subtitle"><?php echo esc_html( $header_subtitle ); ?></p>
             </div>
         </div>
     </section>
@@ -25,7 +59,7 @@ $img = get_template_directory_uri() . '/assets/images/';
         <div class="container">
             <div class="family-content">
                 <h2 class="family-title">WHO WE ARE</h2>
-                <p class="family-text">Numerus Group is a multi sector business group with deep roots in Iraq's economic development. Since the 1970s, we have partnered with leading global companies to deliver complex projects in logistics, energy, infrastructure, and consumer markets. Today, our focus is on three high impact sectors where we maintain strong operational capabilities and long standing client relationships.</p>
+                <p class="family-text"><?php echo esc_html( $who_we_are_text ); ?></p>
             </div>
             <div class="companies-grid">
                 <a href="<?php echo esc_url( home_url( '/logistics' ) ); ?>" class="company-card">
@@ -54,11 +88,11 @@ $img = get_template_directory_uri() . '/assets/images/';
             <div class="mission-vision-grid">
                 <div class="mission-content">
                     <h2 class="section-label">OUR MISSION</h2>
-                    <p class="statement-text">To build and operate sustainable, high performance businesses that create long term value for our partners, employees, and the Iraqi economy.</p>
+                    <p class="statement-text"><?php echo esc_html( $mission_text ); ?></p>
                 </div>
                 <div class="vision-mv-content">
                     <h2 class="section-label">OUR VISION</h2>
-                    <p class="statement-text">We strive to be leaders in best-practice operations, innovation and performance excellence, and long-term value creation for all stakeholders.</p>
+                    <p class="statement-text"><?php echo esc_html( $vision_text ); ?></p>
                 </div>
             </div>
         </div>
@@ -72,16 +106,14 @@ $img = get_template_directory_uri() . '/assets/images/';
                 <p class="culture-intro">These values guide every aspect of our operations—from frontline service delivery to strategic decision making.</p>
             </div>
             <div class="values-grid">
-                <?php
-                $values = [
-                    ['01','Excellence'], ['02','Integrity'], ['03','Ownership'], ['04','Teamwork'],
-                    ['05','Innovation'], ['06','Differentiation'], ['07','Perseverance'], ['08','Mutuality'],
-                    ['09','Pride'], ['10','Passion'],
-                ];
-                foreach ( $values as $v ) {
-                    echo '<div class="value-card"><div class="value-header"><span class="value-number">' . esc_html( $v[0] ) . '</span><h3 class="value-card-title">' . esc_html( $v[1] ) . '</h3></div></div>';
-                }
-                ?>
+                <?php foreach ( $values as $v ) : ?>
+                    <div class="value-card">
+                        <div class="value-header">
+                            <span class="value-number"><?php echo esc_html( $v['value_number'] ); ?></span>
+                            <h3 class="value-card-title"><?php echo esc_html( $v['value_name'] ); ?></h3>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </section>
@@ -106,20 +138,12 @@ $img = get_template_directory_uri() . '/assets/images/';
             <div class="timeline-container">
                 <div class="timeline-line"></div>
                 <div class="timeline-events">
-                    <?php
-                    $timeline = [
-                        [ '1970s–1990s', 'Major industrial and infrastructure projects including cement plants, railroads, power stations, and large scale civil works.' ],
-                        [ '2003–2007',   '600 MW of power generation projects delivered with Wärtsilä.' ],
-                        [ '2003–Present','Exclusive FedEx GSP in Iraq, building a nationwide logistics network.' ],
-                        [ '2004–2021',   'Telecom distribution for IraQna and later Zain Iraq.' ],
-                        [ '2004–2025',   'FMCG distribution leadership through Al Awsat.' ],
-                        [ '2010–Present','Oil & Gas services through AGOS.' ],
-                        [ '2014–Present','Mercedes Benz commercial vehicles dealership in Kurdistan.' ],
-                    ];
-                    foreach ( $timeline as $event ) {
-                        echo '<div class="timeline-event"><div class="timeline-year">' . esc_html( $event[0] ) . '</div><div class="timeline-event-content"><p>' . esc_html( $event[1] ) . '</p></div></div>';
-                    }
-                    ?>
+                    <?php foreach ( $timeline as $event ) : ?>
+                        <div class="timeline-event">
+                            <div class="timeline-year"><?php echo esc_html( $event['timeline_year'] ); ?></div>
+                            <div class="timeline-event-content"><p><?php echo esc_html( $event['timeline_description'] ); ?></p></div>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>
@@ -160,8 +184,8 @@ $img = get_template_directory_uri() . '/assets/images/';
             <div class="page-cta-overlay"></div>
             <div class="container">
                 <div class="page-cta-content">
-                    <h2 class="page-cta-title">Ready to Enter the Iraqi Market?</h2>
-                    <p class="page-cta-subtitle">Let's discuss how we can help you succeed</p>
+                    <h2 class="page-cta-title"><?php echo esc_html( $cta_title ); ?></h2>
+                    <p class="page-cta-subtitle"><?php echo esc_html( $cta_subtitle ); ?></p>
                     <a href="<?php echo esc_url( home_url( '/contact' ) ); ?>" class="page-cta-button">Get Started <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
                 </div>
             </div>

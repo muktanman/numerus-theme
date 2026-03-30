@@ -6,6 +6,18 @@
 get_header();
 numerus_header( '' );
 $img = get_template_directory_uri() . '/assets/images/';
+
+// ── Field defaults ────────────────────────────────────────────────────────────
+$hero_title          = numerus_get_field( 'hero_title' )             ?: 'Building Sustainable Businesses in Iraq for <span class="hero-title-break">Over 50 Years</span>';
+$about_text          = numerus_get_field( 'about_text' )             ?: 'Numerus Group is a diversified Iraqi conglomerate operating across Logistics, Oil &amp; Gas Services, and Automotive Distribution. With a national footprint and regional offices in the UAE, we deliver reliable, high performance solutions to global partners and local industries.';
+$fp_years_number     = numerus_get_field( 'footprint_years_number' ) ?: '20+';
+$fp_years_label      = numerus_get_field( 'footprint_years_label' )  ?: 'Years of Excellence';
+$fp_jobs_number      = numerus_get_field( 'footprint_jobs_number' )  ?: '250+';
+$fp_jobs_label       = numerus_get_field( 'footprint_jobs_label' )   ?: 'Trained Professionals';
+$fp_text_1           = numerus_get_field( 'footprint_text_1' )       ?: 'Operations across all major Iraqi governorates, supported by offices in Baghdad, Basra, Erbil, and Dubai.';
+$fp_text_2           = numerus_get_field( 'footprint_text_2' )       ?: 'A workforce of 250+ trained professionals across engineering, logistics, operations, and management.';
+$cta_subtitle_1      = numerus_get_field( 'cta_subtitle_1' )         ?: 'Over five decades, Numerus Group has built a diversified portfolio spanning telecom distribution, FMCG, power &amp; energy, and F&amp;B franchises.';
+$cta_subtitle_2      = numerus_get_field( 'cta_subtitle_2' )         ?: 'While these sectors are no longer active or may otherwise been divested from the group, they form the foundation of our reputation for reliability, scale, and operational excellence.';
 ?>
 <main class="main">
 
@@ -20,7 +32,7 @@ $img = get_template_directory_uri() . '/assets/images/';
         <div class="hero-overlay"></div>
         <div class="container hero-container">
             <div class="hero-content">
-                <h1 class="hero-title">Building Sustainable Businesses in Iraq for <span class="hero-title-break">Over 50 Years</span></h1>
+                <h1 class="hero-title"><?php echo wp_kses( $hero_title, [ 'span' => [ 'class' => [] ] ] ); ?></h1>
                 <div class="hero-cta">
                     <a href="<?php echo esc_url( home_url( '/contact' ) ); ?>" class="btn hero-button">
                         Partner With Us
@@ -68,9 +80,7 @@ $img = get_template_directory_uri() . '/assets/images/';
         <div class="container">
             <div class="about-content">
                 <h2 class="about-title">About</h2>
-                <p class="about-text">
-                    Numerus Group is a diversified Iraqi conglomerate operating across Logistics, Oil &amp; Gas Services, and Automotive Distribution. With a national footprint and regional offices in the UAE, we deliver reliable, high performance solutions to global partners and local industries.
-                </p>
+                <p class="about-text"><?php echo wp_kses( $about_text, [ 'a' => [ 'href' => [] ] ] ); ?></p>
                 <a href="<?php echo esc_url( home_url( '/contact' ) ); ?>" class="btn btn-primary">Contact Us</a>
             </div>
         </div>
@@ -176,11 +186,11 @@ $img = get_template_directory_uri() . '/assets/images/';
                 </div>
                 <div class="vision-content">
                     <h2 class="vision-title">Our Footprint</h2>
-                    <p class="vision-text">Operations across all major Iraqi governorates, supported by offices in Baghdad, Basra, Erbil, and Dubai.</p>
-                    <p class="vision-text">A workforce of 250+ trained professionals across engineering, logistics, operations, and management.</p>
+                    <p class="vision-text"><?php echo esc_html( $fp_text_1 ); ?></p>
+                    <p class="vision-text"><?php echo esc_html( $fp_text_2 ); ?></p>
                     <div class="vision-metrics">
-                        <div class="metric"><span class="metric-number" id="yearsMetric">20+</span><span class="metric-label">Years of Excellence</span></div>
-                        <div class="metric"><span class="metric-number" id="jobsMetric">250+</span><span class="metric-label">Trained Professionals</span></div>
+                        <div class="metric"><span class="metric-number" id="yearsMetric"><?php echo esc_html( $fp_years_number ); ?></span><span class="metric-label"><?php echo esc_html( $fp_years_label ); ?></span></div>
+                        <div class="metric"><span class="metric-number" id="jobsMetric"><?php echo esc_html( $fp_jobs_number ); ?></span><span class="metric-label"><?php echo esc_html( $fp_jobs_label ); ?></span></div>
                     </div>
                 </div>
             </div>
@@ -192,8 +202,8 @@ $img = get_template_directory_uri() . '/assets/images/';
         <div class="cta-background"></div>
         <div class="container">
             <div class="cta-content">
-                <p class="cta-subtitle"><strong>Over five decades, Numerus Group has built a diversified portfolio spanning telecom distribution, FMCG, power &amp; energy, and F&amp;B franchises.</strong></p>
-                <p class="cta-subtitle">While these sectors are no longer active or may otherwise been divested from the group, they form the foundation of our reputation for reliability, scale, and operational excellence.</p>
+                <p class="cta-subtitle"><strong><?php echo wp_kses( $cta_subtitle_1, [ 'strong' => [] ] ); ?></strong></p>
+                <p class="cta-subtitle"><?php echo esc_html( $cta_subtitle_2 ); ?></p>
                 <a href="<?php echo esc_url( home_url( '/contact' ) ); ?>" class="btn cta-button">
                     Partner With Us
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
