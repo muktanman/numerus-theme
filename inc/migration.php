@@ -6,11 +6,11 @@
  * can manage everything through the WordPress admin.
  *
  * Runs once when any admin page loads. After first successful run the
- * option 'numerus_migration_v1_done' is set and the function exits
+ * option 'numerus_migration_v2_done' is set and the function exits
  * immediately on every subsequent call.
  *
  * To re-run: delete the option from the DB or call
- *   delete_option('numerus_migration_v1_done');
+ *   delete_option('numerus_migration_v2_done');
  */
 
 // ── Helper: import a theme asset into the media library ───────────────────────
@@ -64,7 +64,7 @@ if ( ! function_exists( 'numerus_import_image' ) ) {
 
 // ── Main migration function ────────────────────────────────────────────────────
 function numerus_run_migration(): void {
-    if ( get_option( 'numerus_migration_v1_done' ) ) return;
+    if ( get_option( 'numerus_migration_v2_done' ) ) return;
     if ( ! function_exists( 'update_field' ) )        return;
 
     // ── HOME (page ID 5) ─────────────────────────────────────────────────────
@@ -79,6 +79,15 @@ function numerus_run_migration(): void {
         [ 'slide_image' => numerus_import_image( 'banner-1.png', 'Hero Slide 2' ), 'slide_position' => 'center' ],
         [ 'slide_image' => numerus_import_image( 'banner-2.jpg', 'Hero Slide 3' ), 'slide_position' => 'center' ],
         [ 'slide_image' => numerus_import_image( 'banner-3.png', 'Hero Slide 4' ), 'slide_position' => 'bottom' ],
+    ], $home );
+
+    update_field( 'ticker_items', [
+        [ 'ticker_text' => 'Service provider for FEDEX in Iraq since 2003' ],
+        [ 'ticker_text' => 'Master distributor and nationwide retail network' ],
+        [ 'ticker_text' => 'Authorized Mercedes Benz commercial vehicles distributor in Kurdistan' ],
+        [ 'ticker_text' => 'Integrated camp services and O&M for international oil companies' ],
+        [ 'ticker_text' => 'Over 50 years of project delivery in Iraq' ],
+        [ 'ticker_text' => '250+ professionals across engineering, logistics, and operations' ],
     ], $home );
 
     update_field( 'about_text',        'Numerus Group is a diversified Iraqi conglomerate operating across Logistics, Oil & Gas Services, and Automotive Distribution. With a national footprint and regional offices in the UAE, we deliver reliable, high performance solutions to global partners and local industries.', $home );
@@ -180,8 +189,11 @@ function numerus_run_migration(): void {
 
     update_field( 'page_header_title',    'Contact Us',                                                          $contact );
     update_field( 'page_header_subtitle', 'Connect with our global team to explore partnership opportunities',    $contact );
-    update_field( 'form_intro',           'We welcome inquiries from partners, clients, and stakeholders across all sectors.', $contact );
-    update_field( 'contact_email',        'info@numerusgroup.com',                                               $contact );
+    update_field( 'form_intro',             'We welcome inquiries from partners, clients, and stakeholders across all sectors.', $contact );
+    update_field( 'contact_email',          'info@numerusgroup.com',                                               $contact );
+    update_field( 'form_section_title',     'Get in Touch',   $contact );
+    update_field( 'offices_section_title',  'Our Offices',    $contact );
+    update_field( 'submit_button_text',     'Send Message',   $contact );
 
     update_field( 'offices', [
         [ 'office_city' => 'Baghdad', 'office_address' => 'Al Karrada, District 905, Street 1, Building 8', 'office_phone' => '+964 (1) 717 8456/7' ],
@@ -228,6 +240,18 @@ function numerus_run_migration(): void {
     update_field( 'about_text',           'Leading Star Automotive, a joint venture between Numerus Group and Gargash (UAE), is the authorized distributor for Mercedes Benz commercial vehicles in the Kurdistan Region of Iraq.', $auto );
     update_field( 'commitment_text',      'We deliver world class sales and service experiences, ensuring reliability, performance, and long term value for commercial fleets across the region.', $auto );
 
+    update_field( 'products', [
+        [ 'product_text' => 'Actros heavy duty trucks' ],
+        [ 'product_text' => 'Sprinter and Vito vans' ],
+        [ 'product_text' => 'Buses and minibuses' ],
+    ], $auto );
+
+    update_field( 'facilities', [
+        [ 'facility_text' => 'Modern showroom and service center in Erbil' ],
+        [ 'facility_text' => 'Certified technicians trained to Mercedes Benz global standards' ],
+        [ 'facility_text' => 'Genuine spare parts and after sales support' ],
+    ], $auto );
+
     // ── OIL & GAS (page ID 10) ───────────────────────────────────────────────
     $og = 10;
 
@@ -248,6 +272,16 @@ function numerus_run_migration(): void {
         [ 'service_text' => 'Supply of valves, pipes, drill bits, and O&G materials', 'service_button_text' => 'Learn More', 'service_button_url' => home_url( '/contact' ) ],
     ], $og );
 
+    update_field( 'clients', [
+        [ 'client_logo' => numerus_import_image( 'veolia-logo.svg',       'Veolia' ),       'client_name' => 'Veolia' ],
+        [ 'client_logo' => numerus_import_image( 'bakerhughes-logo.png',  'Baker Hughes' ),  'client_name' => 'Baker Hughes' ],
+        [ 'client_logo' => numerus_import_image( 'petrofac-logo.png',     'Petrofac' ),      'client_name' => 'Petrofac' ],
+        [ 'client_logo' => numerus_import_image( 'halliburton-logo.png',  'Halliburton' ),   'client_name' => 'Halliburton' ],
+        [ 'client_logo' => numerus_import_image( 'nps-logo.jpg',          'NPS' ),           'client_name' => 'NPS' ],
+        [ 'client_logo' => numerus_import_image( 'oilserv-logo.png',      'OilSERV' ),       'client_name' => 'OilSERV' ],
+        [ 'client_logo' => numerus_import_image( 'weatherford-logo.png',  'Weatherford' ),   'client_name' => 'Weatherford' ],
+    ], $og );
+
     // ── WATER TREATMENT (page ID 11) ─────────────────────────────────────────
     $wt = 11;
 
@@ -265,11 +299,22 @@ function numerus_run_migration(): void {
         [ 'service_text' => 'Wastewater treatment and disposal' ],
     ], $wt );
 
+    update_field( 'clients', [
+        [ 'client_logo' => numerus_import_image( 'veolia-logo.svg',       'Veolia' ),       'client_name' => 'Veolia' ],
+        [ 'client_logo' => numerus_import_image( 'bakerhughes-logo.png',  'Baker Hughes' ),  'client_name' => 'Baker Hughes' ],
+        [ 'client_logo' => numerus_import_image( 'petrofac-logo.png',     'Petrofac' ),      'client_name' => 'Petrofac' ],
+        [ 'client_logo' => numerus_import_image( 'halliburton-logo.png',  'Halliburton' ),   'client_name' => 'Halliburton' ],
+        [ 'client_logo' => numerus_import_image( 'nps-logo.jpg',          'NPS' ),           'client_name' => 'NPS' ],
+        [ 'client_logo' => numerus_import_image( 'oilserv-logo.png',      'OilSERV' ),       'client_name' => 'OilSERV' ],
+        [ 'client_logo' => numerus_import_image( 'weatherford-logo.png',  'Weatherford' ),   'client_name' => 'Weatherford' ],
+    ], $wt );
+
     // ── TRACK RECORD (page ID 14) ────────────────────────────────────────────
     $tr = 14;
 
     update_field( 'page_header_title',    'Track Record',                                                                       $tr );
     update_field( 'page_header_subtitle', 'Five decades of high-impact projects across Iraq\'s most critical sectors',          $tr );
+    update_field( 'projects_subtitle',    'A curated selection of high impact projects delivered over the past five decades',   $tr );
 
     update_field( 'projects', [
         [ 'project_company' => 'Baker Hughes',   'project_description' => 'Camp life support, manpower, fuel supply' ],
@@ -291,7 +336,7 @@ function numerus_run_migration(): void {
     ], $tr );
 
     // ── Done ─────────────────────────────────────────────────────────────────
-    update_option( 'numerus_migration_v1_done', true );
+    update_option( 'numerus_migration_v2_done', true );
 }
 
 add_action( 'admin_init', 'numerus_run_migration' );

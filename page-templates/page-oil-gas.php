@@ -25,6 +25,17 @@ $services = $services_raw ?: [
     [ 'service_text' => 'Cathodic protection engineering and installation',   'service_button_text' => 'Learn More', 'service_button_url' => '' ],
     [ 'service_text' => 'Supply of valves, pipes, drill bits, and O&G materials', 'service_button_text' => 'Learn More', 'service_button_url' => '' ],
 ];
+
+$clients_raw = numerus_get_field( 'clients' );
+$clients = $clients_raw ?: [
+    [ 'client_logo' => $img . 'veolia-logo.svg',       'client_name' => 'Veolia' ],
+    [ 'client_logo' => $img . 'bakerhughes-logo.png',  'client_name' => 'Baker Hughes' ],
+    [ 'client_logo' => $img . 'petrofac-logo.png',     'client_name' => 'Petrofac' ],
+    [ 'client_logo' => $img . 'halliburton-logo.png',  'client_name' => 'Halliburton' ],
+    [ 'client_logo' => $img . 'nps-logo.jpg',          'client_name' => 'NPS' ],
+    [ 'client_logo' => $img . 'oilserv-logo.png',      'client_name' => 'OilSERV' ],
+    [ 'client_logo' => $img . 'weatherford-logo.png',  'client_name' => 'Weatherford' ],
+];
 ?>
 <main class="main">
 <div class="oil-gas-page">
@@ -80,12 +91,11 @@ $services = $services_raw ?: [
         <div class="container">
             <h2 class="section-title section-title--center section-title--mb-lg">CLIENTS</h2>
             <div class="partners-grid-full partners-grid-full--4col">
-                <?php
-                $clients = [ 'veolia-logo.svg' => 'Veolia', 'bakerhughes-logo.png' => 'Baker Hughes', 'petrofac-logo.png' => 'Petrofac', 'halliburton-logo.png' => 'Halliburton', 'nps-logo.jpg' => 'NPS', 'oilserv-logo.png' => 'OilSERV', 'weatherford-logo.png' => 'Weatherford' ];
-                foreach ( $clients as $file => $alt ) {
-                    echo '<div class="partner-grid-card"><div class="partner-logo-container"><img src="' . esc_url( $img . $file ) . '" alt="' . esc_attr( $alt ) . '" class="partner-grid-logo"></div></div>';
-                }
+                <?php foreach ( $clients as $cl ) :
+                    $logo = is_array( $cl['client_logo'] ) ? $cl['client_logo']['url'] : $cl['client_logo'];
                 ?>
+                    <div class="partner-grid-card"><div class="partner-logo-container"><img src="<?php echo esc_url( $logo ); ?>" alt="<?php echo esc_attr( $cl['client_name'] ); ?>" class="partner-grid-logo"></div></div>
+                <?php endforeach; ?>
             </div>
         </div>
     </section>
