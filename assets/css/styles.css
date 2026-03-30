@@ -6055,6 +6055,13 @@ img {
   grid-template-columns: repeat(4, 1fr);
 }
 
+@media (max-width: 640px) {
+  .clients-static-section .partner-grid-card {
+    flex: 0 0 80%;
+    min-width: 80%;
+  }
+}
+
 /* Projects section white background */
 .projects-section--white {
   background: white;

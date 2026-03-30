@@ -120,6 +120,10 @@ function numerus_enqueue_assets() {
         wp_enqueue_script( 'numerus-track-record', $uri . '/assets/js/track-record.js', [ 'numerus-main' ], $ver, true );
     }
 
+    if ( is_page( 'oil-gas' ) ) {
+        wp_enqueue_script( 'numerus-oil-gas', $uri . '/assets/js/oil-gas.js', [ 'numerus-main' ], $ver, true );
+    }
+
     if ( is_page( 'contact' ) ) {
         wp_enqueue_script( 'numerus-contact', $uri . '/assets/js/contact.js', [ 'numerus-main' ], $ver, true );
         wp_localize_script( 'numerus-contact', 'numerusAjax', [
