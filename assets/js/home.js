@@ -30,18 +30,70 @@
     }
 
     // -------------------------------------------------------------------------
-    // Sectors banner hover — swap background image on hover
+    // Sectors auto-slider (5-second interval)
     // -------------------------------------------------------------------------
-    var sectorItems    = document.querySelectorAll('.sector-item');
-    var bannerBackground = document.getElementById('bannerBackground');
+    var slider      = document.getElementById('sectorsSlider');
+    var slides      = slider ? slider.querySelectorAll('.sector-slide')      : [];
+    var navDots     = slider ? slider.querySelectorAll('.sectors-slider__dot'): [];
+    var prevBtn     = document.getElementById('sectorsPrev');
+    var nextBtn     = document.getElementById('sectorsNext');
+    var sectorIndex = 0;
+    var sectorTimer = null;
+    var INTERVAL    = 5000;
 
-    if (sectorItems.length && bannerBackground) {
-        sectorItems.forEach(function (item) {
-            item.addEventListener('mouseenter', function () {
-                var img = item.getAttribute('data-image');
-                if (img) bannerBackground.style.backgroundImage = 'url(' + img + ')';
+    function goToSlide(next) {
+        if (!slides.length) return;
+
+        // Deactivate current
+        slides[sectorIndex].classList.remove('active');
+        navDots[sectorIndex] && navDots[sectorIndex].classList.remove('active');
+
+        // Advance
+        sectorIndex = (next + slides.length) % slides.length;
+
+        // Activate next
+        slides[sectorIndex].classList.add('active');
+        if (navDots[sectorIndex]) {
+            navDots[sectorIndex].classList.remove('active');
+            // Force reflow so the animation restarts
+            void navDots[sectorIndex].offsetWidth;
+            navDots[sectorIndex].classList.add('active');
+        }
+    }
+
+    function startSectorTimer() {
+        clearInterval(sectorTimer);
+        sectorTimer = setInterval(function () {
+            goToSlide(sectorIndex + 1);
+        }, INTERVAL);
+    }
+
+    function stopSectorTimer() {
+        clearInterval(sectorTimer);
+    }
+
+    if (slides.length > 1) {
+        // Dot click
+        navDots.forEach(function (dot, i) {
+            dot.addEventListener('click', function () {
+                goToSlide(i);
+                startSectorTimer();
             });
         });
+
+        // Arrow buttons
+        if (prevBtn) prevBtn.addEventListener('click', function () { goToSlide(sectorIndex - 1); startSectorTimer(); });
+        if (nextBtn) nextBtn.addEventListener('click', function () { goToSlide(sectorIndex + 1); startSectorTimer(); });
+
+        // Pause on hover
+        if (slider) {
+            slider.addEventListener('mouseenter', stopSectorTimer);
+            slider.addEventListener('mouseleave', startSectorTimer);
+            slider.addEventListener('touchstart',  stopSectorTimer, { passive: true });
+            slider.addEventListener('touchend',    function () { setTimeout(startSectorTimer, 1500); }, { passive: true });
+        }
+
+        startSectorTimer();
     }
 
     // -------------------------------------------------------------------------
@@ -86,68 +138,5 @@
         observer.observe(visionSection);
     }
 
-    // -------------------------------------------------------------------------
-    // Mobile sectors carousel — auto-scroll + dots pagination
-    // -------------------------------------------------------------------------
-    var sectorsGrid = document.querySelector('.sectors-grid');
-    var dots        = document.querySelectorAll('#sectorsDots .dot');
-
-    if (sectorsGrid && dots.length) {
-        var currentSlide      = 0;
-        var autoScrollInterval;
-
-        function updateDots(index) {
-            dots.forEach(function (dot, i) {
-                dot.classList.toggle('active', i === index);
-            });
-        }
-
-        function scrollToSlide(index) {
-            var firstCard = sectorsGrid.querySelector('.sector-card');
-            if (!firstCard) return;
-            var cardWidth = firstCard.offsetWidth + 16;
-            sectorsGrid.scrollTo({ left: index * cardWidth, behavior: 'smooth' });
-            currentSlide = index;
-            updateDots(index);
-        }
-
-        function startAutoScroll() {
-            autoScrollInterval = setInterval(function () {
-                currentSlide = (currentSlide + 1) % 3;
-                scrollToSlide(currentSlide);
-            }, 4000);
-        }
-
-        function stopAutoScroll() {
-            clearInterval(autoScrollInterval);
-        }
-
-        // Dot click navigation
-        dots.forEach(function (dot, i) {
-            dot.addEventListener('click', function () {
-                stopAutoScroll();
-                scrollToSlide(i);
-                setTimeout(startAutoScroll, 3000);
-            });
-        });
-
-        // Pause on touch
-        sectorsGrid.addEventListener('touchstart', stopAutoScroll);
-        sectorsGrid.addEventListener('touchend', function () {
-            setTimeout(startAutoScroll, 3000);
-        });
-
-        // Update dots on manual scroll
-        sectorsGrid.addEventListener('scroll', function () {
-            var firstCard = sectorsGrid.querySelector('.sector-card');
-            if (!firstCard) return;
-            var cardWidth = firstCard.offsetWidth + 16;
-            var idx = Math.round(sectorsGrid.scrollLeft / cardWidth);
-            currentSlide = idx;
-            updateDots(idx);
-        });
-
-        startAutoScroll();
-    }
 
 })();
