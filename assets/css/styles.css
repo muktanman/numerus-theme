@@ -525,7 +525,8 @@ img {
   color: white;
   text-align: center;
   justify-content: center;
-  margin: var(--space-md) var(--space-xl) 0;
+  margin: var(--space-md) var(--space-xl);
+  width: calc(100% - 2 * var(--space-xl));
   border-radius: var(--border-radius);
 }
 
